@@ -47,10 +47,24 @@ class User extends ActiveRecord implements IdentityInterface {
 	 * {@inheritdoc}
 	 */
 	public function rules() {
-		return [
-			['status', 'default', 'value' => self::STATUS_INACTIVE],
-			['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+		$rules = parent::rules();
+		$rules['role_default'] = ['role', 'default', 'value' => 'USER'];
+		$rules['new_required'] = [['phone_number', 'firstName', 'lastName', 'email', 'role'], 'required'];
+		$rules['phone_number_length'] = ['phone_number', 'string', 'length' => 10];
+		$rules['phone_number_int'] = ['phone_number', 'match', 'pattern' => '/[0-9]{2}\d{8}/',
+			'message' => 'Phone number should contain letters only'];
+		$rules['phone_number_unique'] = ['phone_number', 'unique'];
+
+		$rules['company_id_required'] = ['company_id', 'required', 'when' => function ($model) {
+			return !\Yii::$app->user->can('SUPER_ADMIN');
+		}, 'whenClient' => "function (attribute, value) {
+
+                return " . !\Yii::$app->user->can('SUPER_ADMIN') . ";
+            }",
 		];
+
+		return $rules;
+
 	}
 
 	/**
@@ -189,6 +203,12 @@ class User extends ActiveRecord implements IdentityInterface {
 	 */
 	public function removePasswordResetToken() {
 		$this->password_reset_token = null;
+	}
+	public function attributeLabels() {
+		return [
+			'company_id' => Yii::t('app', 'Company'),
+
+		];
 	}
 
 	public static function findByPhoneNumber($phoneNumber) {
