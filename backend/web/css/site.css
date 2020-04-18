@@ -72,8 +72,7 @@ a.desc:after {
     content: "\e156";
 }
 
-.grid-view th,
-.grid-view td:last-child {
+.grid-view td {
     white-space: nowrap;
 }
 
@@ -118,4 +117,7 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+.skin-green .main-header .navbar .dropdown-menu li a {
+	color:inherit;
 }

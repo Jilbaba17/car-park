@@ -7,28 +7,47 @@ use yii\base\Model;
 /**
  * Login form
  */
-class LoginForm extends Model
+class LoginForm extends \dektrium\user\models\LoginForm
 {
     public $username;
     public $password;
+    public $phone_number;
     public $rememberMe = true;
 
     private $_user;
 
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+           // [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+           // ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            //['password', 'validatePassword'],
+            ['phone_number', 'required'],
+            ['phone_number', 'isTenNumbersOnly'],
+            ['phone_number', 'validatePhoneNumber']
         ];
+    }
+    
+    public function isTenNumbersOnly($attribute) {
+        if (!preg_match('/^[0-9]{10}$/', $this->$attribute)) {
+            $this->addError($attribute, 'Must contain exactly 10 digits.');
+        }
+    }
+
+    public function validatePhoneNumber($attribute, $params) {
+        if(!$this->hasErrors()) {
+            $user = $this->getUserByPhoneNumber($this->phone_number);
+            if(!$user) {
+                $this->addError($attribute, 'Incorrect phone number');
+            }
+        }
     }
 
     /**
@@ -56,10 +75,10 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUserByPhoneNumber(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        } else {
+            return false;
         }
-        
-        return false;
     }
 
     /**
@@ -71,6 +90,14 @@ class LoginForm extends Model
     {
         if ($this->_user === null) {
             $this->_user = User::findByUsername($this->username);
+        }
+
+        return $this->_user;
+    }
+
+    protected function getUserByPhoneNumber() {
+        if ($this->_user === null) {
+            $this->_user = User::findByPhoneNumber($this->phone_number);
         }
 
         return $this->_user;

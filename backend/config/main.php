@@ -1,9 +1,9 @@
 <?php
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+    require(__DIR__ . '/../../common/config/params.php'),
+    require(__DIR__ . '/../../common/config/params-local.php'),
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
 );
 
 return [
@@ -26,25 +26,29 @@ return [
             'name' => 'advanced-backend',
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            //'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                'file' => [
+                    //'class' => 'yii\log\FileTarget',
+                    //'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/parking-backend.log'
                 ],
             ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+    	'mailer' => [
+    		'class' => 'yii\swiftmailer\Mailer',
+    		'viewPath' => '@common/mail',
+    		// send all mails to a file by default. You have to set
+    		// 'useFileTransport' to false and configure a transport
+    		// for the mailer to send real emails.
+    		'useFileTransport' => false,
+    		'transport' => $params['mail']
+    	],
+    	
+    
     ],
     'params' => $params,
 ];

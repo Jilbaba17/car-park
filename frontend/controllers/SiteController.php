@@ -1,12 +1,10 @@
 <?php
 namespace frontend\controllers;
 
-use frontend\models\ResendVerificationEmailForm;
-use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\base\InvalidArgumentException;
+use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
+use common\controllers\MainController;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -14,45 +12,51 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Company;
+use common\models\TagMaster;
+use common\models\Entry;
+use yii\web\Response;
+use common\models\User;
+use yii\db\Expression;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends MainController
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+//     public function behaviors()
+//     {
+//         return [
+//             'access' => [
+//                 'class' => AccessControl::className(),
+//                 'only' => ['logout', 'signup'],
+//                 'rules' => [
+//                     [
+//                         'actions' => ['signup'],
+//                         'allow' => true,
+//                         'roles' => ['?'],
+//                     ],
+//                     [
+//                         'actions' => ['logout'],
+//                         'allow' => true,
+//                         'roles' => ['@'],
+//                     ],
+//                 ],
+//             ],
+//             'verbs' => [
+//                 'class' => VerbFilter::className(),
+//                 'actions' => [
+//                     'logout' => ['post'],
+//                 ],
+//             ],
+//         ];
+//     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function actions()
     {
@@ -72,9 +76,46 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
-    {
-        return $this->render('index');
+    public function actionIndex() {
+    	// if ajax call
+    	if(\Yii::$app->request->isAjax) {
+    		\Yii::$app->response->format = Response::FORMAT_JSON;
+
+    		// Get total company slots
+    		$companySpaces = Company::findOne(\Yii::$app->user->identity['company_id'])->noslots;
+    		// Get available company slots
+    		$subQuery = TagMaster::find()
+    		->select('tagid')
+    		->where('company=' . \Yii::$app->user->identity['company_id']);
+    		
+    		$takenSpaces = Entry::find()
+    		->select('tagid')
+    		->where(['IN', 'tagid', $subQuery])
+    		->andWhere(['AND', 'status=1'])
+    		->count();
+    		$availableSpaces = $companySpaces - $takenSpaces;
+    		$parkingAvailablePercentage = floor(($takenSpaces / $companySpaces) * 100);
+    		
+    		//print_r($user); die;
+    		return [
+    			'companySpaces' => $companySpaces,
+    			'availableSpaces' => $availableSpaces,
+    			'takenSpaces' => $takenSpaces,
+    			'parkingAvailablePercentage' => $parkingAvailablePercentage,
+    		];
+    	}
+    	$user = User::find()
+    	->where('id=' . \Yii::$app->user->id)
+    	->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS names"))
+    	->asArray()
+    	->one();
+    	///var_dump($availableSpaces); die;
+        return $this->render('index', [
+        		'user' => $user,
+        		'companyName' => Company::findOne(\Yii::$app->user->identity['company_id'])->name,
+        		
+        		
+        ]);
     }
 
     /**
@@ -85,19 +126,18 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
+            
             return $this->goHome();
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        return $this->redirect(['user/security/login']);
+        // $model = new LoginForm();
+        // if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        //     return $this->goBack();
+        // } else {
+        //     return $this->render('login', [
+        //         'model' => $model,
+        //     ]);
+        // }
     }
 
     /**
@@ -153,9 +193,12 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
         }
 
         return $this->render('signup', [
@@ -197,7 +240,7 @@ class SiteController extends Controller
     {
         try {
             $model = new ResetPasswordForm($token);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -211,50 +254,5 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
-    /**
-     * Verify email address
-     *
-     * @param string $token
-     * @throws BadRequestHttpException
-     * @return yii\web\Response
-     */
-    public function actionVerifyEmail($token)
-    {
-        try {
-            $model = new VerifyEmailForm($token);
-        } catch (InvalidArgumentException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-        if ($user = $model->verifyEmail()) {
-            if (Yii::$app->user->login($user)) {
-                Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-                return $this->goHome();
-            }
-        }
-
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
-    }
-
-    /**
-     * Resend verification email
-     *
-     * @return mixed
-     */
-    public function actionResendVerificationEmail()
-    {
-        $model = new ResendVerificationEmailForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
-            }
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
-        }
-
-        return $this->render('resendVerificationEmail', [
-            'model' => $model
-        ]);
-    }
 }
+
