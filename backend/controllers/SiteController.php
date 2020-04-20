@@ -74,7 +74,7 @@ class SiteController extends MainController
     		// Get available company slots
     		$subQuery = ParkingLot::find()
     		->select('tagid')
-    		->where('company=' . $companyId);
+    		->where('customer_id =' . $companyId);
     		
     		$takenSpaces = ParkingSlip::find()
     		->select('tagid')
@@ -116,6 +116,8 @@ class SiteController extends MainController
      */
     public function actionLogin()
     {
+        $this->layout = '@common/views/layouts/login';
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

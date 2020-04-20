@@ -25,7 +25,6 @@ class BuildingController extends MainController {
     	if(\Yii::$app->request->isAjax) {
     		\Yii::$app->response->format = Response::FORMAT_JSON;
     		$buildings = Block::find()
-    		->with('city')
     		->asArray()
     		->all();
     		return ['data' => $buildings];
@@ -95,7 +94,7 @@ class BuildingController extends MainController {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

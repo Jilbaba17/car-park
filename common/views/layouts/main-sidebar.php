@@ -1,3 +1,8 @@
+<?php
+
+use common\models\User;
+
+?>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -7,7 +12,7 @@
                 ['label' => 'NAVIGATION', 'options' => ['class' => 'header']],
             		
             		['label' => 'Check In / Check out', 'url' => false, 'icon' => 'fa-car', 'pjax'=>true,
-            				'visible' => Yii::$app->user->can('GUARD'),
+            				'visible' => in_array(Yii::$app->user->identity->role, User::CHECKIN_ROLES),
             				'items' => [
             						[
             								'label' => 'Check In',
@@ -23,7 +28,7 @@
             		],
 
             	['label' => 'Cities', 'url' => false, 'icon' => 'fa-globe', 'pjax'=>true, 
-            			'visible' => Yii::$app->user->can('SUPER_ADMIN'),
+            			'visible' => false, //Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
 	            		[
 	            			'label' => 'View Cities',
@@ -37,38 +42,38 @@
             			],
             		],
             	],
-            	['label' => 'Buildings', 'url' => false, 'icon' => 'fa-building', 'pjax'=>true,
-            			'visible' => Yii::$app->user->can('SUPER_ADMIN'),
+            	['label' => 'Blocks', 'url' => false, 'icon' => 'fa-building', 'pjax'=>true,
+                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
             			[
-            				'label' => 'View Buildings',
+            				'label' => 'View Blocks',
             				'url' => ['/building/index'],
             				'icon' => 'fa-link',
             			],
             			[
-            				'label' => 'Add Building',
+            				'label' => 'Add Block',
             				'url' => ['/building/create'],
             				'icon' => 'fa-link',
             			],
             		],
             	],
-            	['label' => 'Companies', 'url' => false, 'icon' => 'fa-briefcase', 'pjax'=>true,
-            			'visible' => Yii::$app->user->can('SUPER_ADMIN'),
+            	['label' => 'Customers', 'url' => false, 'icon' => 'fa-briefcase', 'pjax'=>true,
+                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
             			[
-            				'label' => 'View Companies',
+            				'label' => 'View Customers',
             				'url' => ['/company/index'],
             				'icon' => 'fa-link',
             			],
             			[
-            				'label' => 'Add Company',
+            				'label' => 'Add Customer',
             				'url' => ['/company/create'],
             				'icon' => 'fa-link',
             			],
             		],
             	],
-            	['label' => 'Tags', 'url' => false, 'icon' => 'fa-tags', 'pjax'=>true,
-            			'visible' => Yii::$app->user->can('GUARD'),
+            	['label' => 'Parking Slots', 'url' => false, 'icon' => 'fa-tags', 'pjax'=>true,
+                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
             			[
             				'label' => 'View Tags',
@@ -99,10 +104,9 @@
             				],
             		],
                 ['label' => 'Manage Users', 'url' => false, 'icon' =>'fa-users', 'pjax'=>true,
-            		'visible' => Yii::$app->user->can('COMPANY_ADMIN'), 'items' => [
+            			'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
                 		['label' => 'View Users', 'url' => ['/users/index'], 'icon' => 'fa-link'],
                 		['label' => 'Add users', 'url' => ['/users/create'], 'icon' => 'fa-link'],
-            		]
                 ]
 
 //                 [

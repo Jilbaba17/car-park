@@ -54,7 +54,7 @@ use yii\bootstrap\Nav;
     				//'<li class="divider"></li>',
     				[
     					'label'       => Icon::show('log-out', [], Icon::BSG) . '<span>Sign Out</span>',
-    					'url'         => ['//user/logout'],
+    					'url'         => ['site/logout'],
     					'linkOptions' => ['data-method' => 'post'],
 //     					'options' => [
 // 	    					'class' => 'footer'

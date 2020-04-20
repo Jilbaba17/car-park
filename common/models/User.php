@@ -23,8 +23,11 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface {
 	const STATUS_DELETED = 0;
 	const STATUS_ACTIVE = 10;
+	const CHECKIN_ROLES = [
+	    'SUPER_ADMIN', 'GUARD'
+    ];
 
-	public $role;
+	//public $role;
 
 	/**
 	 * @inheritdoc

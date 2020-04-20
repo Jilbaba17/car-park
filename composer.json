@@ -31,16 +31,19 @@
         "kartik-v/yii2-dynagrid": "dev-master",
         "kartik-v/yii2-widget-depdrop": "@dev",
         "bower-asset/datatables.net": "1.10.12",
+        "bower-asset/datatables.net-buttons-bs": "*",
         "bower-asset/datatables-responsive": "2.1.0",
-        "nizsheanez/yii2-asset-converter": "1.*",
-        "nullref/yii2-datatables": "^1.0",
+        "bower-asset/jszip": "*",
+        "bower-asset/pdfmake": "*",
+        "nullref/yii2-datatables": "1.0.4",
         "nirvana-msu/yii2-showloading": "1.0.*@dev",
         "unclead/yii2-multiple-input": "~2.0",
         "bower-asset/admin-lte": "*",
         "rmrevin/yii2-ionicon": "~1.2",
         "kartik-v/yii2-widget-growl": "*",
         "wkii/yii2-adminlte": "^1.0",
-        "conquer/momentjs": "*"     
+        "conquer/momentjs": "*"  ,
+        "almasaeed2010/adminlte": "2.3.11"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

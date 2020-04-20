@@ -21,10 +21,6 @@ use common\models\CityMaster;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'city_code')->widget(Chosen::className(), [
-    	'placeholder' => 'Select City',
-    	'items' => ArrayHelper::map(CityMaster::find()->all(), 'id', 'name')
-    ]) ?>
 
     <?= $form->field($model, 'tot_slots')->textInput() ?>
 

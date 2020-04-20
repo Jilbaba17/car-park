@@ -29,8 +29,8 @@ class Block extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'city_code', 'tot_slots', 'address'], 'required'],
-            [['city_code', 'tot_slots'], 'integer'],
+            [['name', 'tot_slots', 'address'], 'required'],
+            [['tot_slots'], 'integer'],
             [['name'], 'string', 'max' => 200],
             [['address'], 'string', 'max' => 255],
         ];

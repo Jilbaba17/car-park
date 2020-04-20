@@ -121,3 +121,7 @@ a.desc:after {
 .skin-green .main-header .navbar .dropdown-menu li a {
 	color:inherit;
 }
+/* Datatables buttons css */
+.btn-group, .btn-group-vertical {
+    display:inline;
+}

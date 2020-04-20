@@ -1,88 +1,96 @@
 <?php
 return [
-	'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-	'layoutPath' => '@common/views/layouts',
-	'name' => 'CAR PARK SYSTEM',
-	'components' => [
-		'cache' => [
-			'class' => 'yii\caching\FileCache',
-		],
-		'urlManager' => [
-			'enablePrettyUrl' => true,
-			'showScriptName' => false,
-			'rules' => [
-			],
-		],
-		'log' => [
-			'traceLevel' => YII_DEBUG ? 3 : 0,
-			'targets' => [
-				'file' => [
-					'class' => 'yii\log\FileTarget',
-					'levels' => ['error', 'warning'],
-				],
-			],
-		],
-		'view' => [
-			'theme' => [
-				'pathMap' => [
-					'@frontend/views/site/user' => '@common/views/user',
-					//'@dektrium/user/views/registration' => '@common/views/registration'
+    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'layoutPath' => '@common/views/layouts',
+    'name' => 'CAR PARK SYSTEM',
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+    ],
+    'components' => [
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            ],
+        ],
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                'file' => [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@frontend/views/site/user' => '@common/views/user',
+                    //'@dektrium/user/views/registration' => '@common/views/registration'
 
-				],
-			],
-		],
-		'assetManager' => [
-			'bundles' => [
-				'converter' => [
-					'class' => 'nizsheanez\assetConverter\Converter',
-					'force' => true, // true : If you want convert your sass each time without time dependency
-					'destinationDir' => 'css', //at which folder of @webroot put compiled files
-					'parsers' => [
-						'scss' => [ // file extension to parse
-							'class' => 'nizsheanez\assetConverter\Scss',
-							'output' => 'css', // parsed output file type
-							'options' => [ // optional options
-								'enableCompass' => true, // default is true
-								'importPaths' => ['/sass', '@bower/datatables-responsive/css/responsive.bootstrap.scss'], // import paths, you may use path alias here,
-								// e.g., `['@path/to/dir', '@path/to/dir1', ...]`
-								'lineComments' => true, // if true — compiler will place line numbers in your compiled output
-								'outputStyle' => 'nested', // May be `compressed`, `crunched`, `expanded` or `nested`,
-								// see more at http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
-							],
-						],
-					],
-				],
-				'Wkii\AdminLTE\Asset\AdminLteAsset' => [
-					'skin' => 'skin-blue',
-				],
-				'nullref\datatable\DataTableAsset' => [
-					'styling' => false,
-					'js' => [
-						'datatables/media/js/jquery.dataTables.min.js',
-						'datatables/media/js/dataTables.bootstrap.min.js',
-						'datatables.net-plugins/sorting/natural.js',
-						'datatables-responsive/js/dataTables.responsive.js',
+                ],
+            ],
+        ],
+        'assetManager' => [
+            'linkAssets' => true,
+            'bundles' => [
+//
+                'Wkii\AdminLTE\Asset\AdminLteAsset' => [
+                    'skin' => 'skin-blue',
+                ],
+                'Wkii\AdminLTE\Asset\FontAwesomeAsset' => [
+                    'css' => [
+                        'css/all.min.css',
+                    ],
+                    'publishOptions' => [
+                        'beforeCopy' => function ($from, $to) {
+                            return preg_match('%(/|\\\\)(webfonts|css)%', $from);
+                        },
+                        'only' => [
+                            'webfonts/*',
+                            'css/*',
+                        ]
+                    ]
 
-					],
-					'css' => [
-						'datatables/media/css/dataTables.bootstrap.min.css',
-						'datatables-responsive/css/responsive.dataTables.scss',
+                ],
+                'nullref\datatable\DataTableAsset' => [
+                    'styling' => false,
+                    'js' => [
+                        'datatables/media/js/jquery.dataTables.min.js',
+                        'datatables/media/js/dataTables.bootstrap.min.js',
+                        'datatables-plugins/sorting/natural.js',
+                        'datatables-responsive/js/dataTables.responsive.js',
+                        'datatables.net-buttons/js/dataTables.buttons.min.js',
+                        'datatables.net-buttons-bs/js/buttons.bootstrap.min.js',
+                        'jszip/dist/jszip.min.js',
+                        'pdfmake/build/pdfmake.min.js',
+                        'pdfmake/build/vfs_fonts.js',
+                        'datatables.net-buttons/js/buttons.html5.min.js',
 
-					],
-					'depends' => [
-						'yii\web\JqueryAsset',
-						'yii\bootstrap\BootstrapAsset',
-					],
-				],
-			],
-		],
+                    ],
+                    'css' => [
+                        'datatables/media/css/dataTables.bootstrap.min.css',
+                        'datatables.net-bs/css/dataTables.bootstrap.css',
+                        'datatables.net-buttons-bs/css/buttons.bootstrap.min.css',
 
-	],
-	'modules' => [
+                    ],
+                    'depends' => [
+                        'yii\web\JqueryAsset',
+                        'yii\bootstrap\BootstrapAsset',
+                    ],
+                ],
+            ],
+        ],
+
+    ],
+    'modules' => [
 //		'rbac' => 'dektrium\rbac\RbacWebModule',
-		'gridview' => [
-			'class' => '\kartik\grid\Module',
-		],
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+        ],
 //		'user' => [
 //			'class' => 'dektrium\user\Module',
 //			'enableUnconfirmedLogin' => true,
@@ -117,5 +125,5 @@ return [
 //				],
 //			],
 //		],
-	],
+    ],
 ];
