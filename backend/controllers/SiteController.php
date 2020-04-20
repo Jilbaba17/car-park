@@ -4,11 +4,11 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\LoginForm;
-use common\models\Company;
+use common\models\Customer;
 use yii\helpers\ArrayHelper;
-use common\models\Entry;
+use common\models\ParkingSlip;
 use yii\web\Response;
-use common\models\TagMaster;
+use common\models\ParkingLot;
 use common\controllers\MainController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -70,13 +70,13 @@ class SiteController extends MainController
     		\Yii::$app->response->format = Response::FORMAT_JSON;
     		
     		// Get total company slots
-    		$companySpaces = Company::findOne($companyId)->noslots;
+    		$companySpaces = Customer::findOne($companyId)->noslots;
     		// Get available company slots
-    		$subQuery = TagMaster::find()
+    		$subQuery = ParkingLot::find()
     		->select('tagid')
     		->where('company=' . $companyId);
     		
-    		$takenSpaces = Entry::find()
+    		$takenSpaces = ParkingSlip::find()
     		->select('tagid')
     		->where(['IN', 'tagid', $subQuery])
 //     		->andWhere(['AND', 'DATE(intime) = DATE(NOW())', 'outtime IS NULL'])
@@ -93,7 +93,7 @@ class SiteController extends MainController
     		];
     	}
     	// Build company map and send it to view
-    	$companyMap = ArrayHelper::map(Company::find()
+    	$companyMap = ArrayHelper::map(Customer::find()
     	->select('cid, name')
         ->asArray()
     	->all(), 'cid', 'name');
@@ -101,7 +101,7 @@ class SiteController extends MainController
     	//echo $operation; die;
     	///var_dump($availableSpaces); die;
         return $this->render('index', [
-        	'model' => new Entry(['scenario' => $operation]),
+        	'model' => new ParkingSlip(['scenario' => $operation]),
         	'companyMap' => $companyMap,
         	'operation' => $operation
         ]);

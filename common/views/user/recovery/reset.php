@@ -18,10 +18,10 @@ use yii\widgets\ActiveForm;
  * @var dektrium\user\models\RecoveryForm $model
  */
 
-$this->title = Yii::t('user', 'Reset your password');
+$this->title = Yii::t('app', 'Reset your password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <div class="register-box-body">
+    <div class=" col-xs-12 col-md-6 col-md-offset-3 register-box-body">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= Html::submitButton(Yii::t('user', 'Finish'), ['class' => 'btn btn-success btn-block']) ?><br>
+                <?= Html::submitButton(Yii::t('app', 'Finish'), ['class' => 'btn btn-success btn-block']) ?><br>
 
                 <?php ActiveForm::end(); ?>
             </div>

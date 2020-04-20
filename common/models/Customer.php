@@ -13,7 +13,7 @@ use Yii;
  * @property string $name
  * @property integer $noslots
  */
-class Company extends \yii\db\ActiveRecord
+class Customer extends \yii\db\ActiveRecord
 {
 	
     /**
@@ -21,7 +21,7 @@ class Company extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'company';
+        return 'customer';
     }
 
     /**
@@ -33,7 +33,7 @@ class Company extends \yii\db\ActiveRecord
             [['city_code', 'bldg_code', 'name', 'noslots'], 'required'],
             [['city_code', 'bldg_code', 'noslots'], 'integer'],
         	[['city_code'], 'exist', 'targetAttribute' => 'id', 'targetClass' => CityMaster::className()],
-        	[['bldg_code'], 'exist', 'targetAttribute' => 'id', 'targetClass' => BuildingMaster::className()],
+        	[['bldg_code'], 'exist', 'targetAttribute' => 'id', 'targetClass' => Block::className()],
         	
             [['name'], 'string', 'max' => 50],
         ];
@@ -80,7 +80,7 @@ class Company extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getBuilding() {
-    	return $this->hasOne(BuildingMaster::className(), ['id' => 'bldg_code'])
+    	return $this->hasOne(Block::className(), ['id' => 'bldg_code'])
     		->select('id, city_code, address, name')
     		->with('city');
     }

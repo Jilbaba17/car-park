@@ -15,13 +15,12 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var dektrium\user\models\RecoveryForm $model
  */
 
-$this->title = Yii::t('user', 'Recover your password');
+$this->title = Yii::t('app', 'Recover your password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <div class="register-box-body">
+    <div class=" col-xs-12 col-md-6 col-md-offset-3 register-box-body">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
-                <?= Html::submitButton(Yii::t('user', 'Continue'), ['class' => 'btn btn-primary btn-block']) ?><br>
+                <?= Html::submitButton(Yii::t('app', 'Continue'), ['class' => 'btn btn-primary btn-block']) ?><br>
 
                 <?php ActiveForm::end(); ?>
             </div>

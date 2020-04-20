@@ -3,14 +3,14 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
-use common\models\BuildingMaster;
+use common\models\Block;
 use common\models\CityMaster;
 use yii\web\JsExpression;
-use common\models\Company;
+use common\models\Customer;
 use dektrium\rbac\models\AuthItem;
 
 /**
- * @var $model common\models\Company
+ * @var $model common\models\Customer
  * @var $this yii\web\View 
  */
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,7 +26,7 @@ $form = ActiveForm::begin([
 		
 		<div class="box-body">
 		<?php 
-		$buildingDesc = empty($model->company_id) ? '' : Company::findOne($model->company_id)->name;
+		$buildingDesc = empty($model->company_id) ? '' : Customer::findOne($model->company_id)->name;
 // 		$cityDesc = empty($model->city_code) ? '' : CityMaster::findOne($model->city_code)->name;
 		
 		echo $form->field($model, 'firstName');

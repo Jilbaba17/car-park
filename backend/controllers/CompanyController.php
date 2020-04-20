@@ -1,10 +1,10 @@
 <?php
 namespace backend\controllers;
 
-use common\models\Company;
+use common\models\Customer;
 use yii\web\Response;
 use common\models\CityMaster;
-use common\models\BuildingMaster;
+use common\models\Block;
 use common\controllers\MainController;
 use yii\web\NotFoundHttpException;
 use yii\db\Query;
@@ -18,7 +18,7 @@ class CompanyController extends MainController {
 		//if(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id) == 'COMPANY_ADMIN') {
 		if(\Yii::$app->request->isAjax) {
 			\Yii::$app->response->format = Response::FORMAT_JSON;
-			$rsCompanies = Company::find()
+			$rsCompanies = Customer::find()
 			->with(['building'])
 			->asArray()
 			->all();
@@ -31,7 +31,7 @@ class CompanyController extends MainController {
 	}
 	
 	public function actionCreate() {
-		$model = new Company();
+		$model = new Customer();
 		if(\Yii::$app->request->isPost) {
 			$this->save($model);
 		}
@@ -59,7 +59,7 @@ class CompanyController extends MainController {
 		]);
 	}
 	
-	private function save(Company &$model) {
+	private function save(Customer &$model) {
 		
 		if( $model->load(\Yii::$app->request->post()) && $model->validate()) {
 			$model->save(false);
@@ -79,7 +79,7 @@ class CompanyController extends MainController {
 	
 	public function actionAddBuilding() {
 		return $this->redirect('//building/create', [
-			'model' => new BuildingMaster()
+			'model' => new Block()
 		]);
 	}
 	
@@ -95,7 +95,7 @@ class CompanyController extends MainController {
 		if (!is_null($q)) {
 			$query = new Query();
 			$query->select('cid AS id, name AS text')
-			->from(Company::tableName())
+			->from(Customer::tableName())
 			->where(['like', 'name', $q])
 			->limit(20);
 			$command = $query->createCommand();
@@ -104,7 +104,7 @@ class CompanyController extends MainController {
 			$out['results'] = array_values($data);
 		}
 		elseif ($id > 0) {
-			$out['results'] = ['id' => $id, 'text' => Company::find($id)->name];
+			$out['results'] = ['id' => $id, 'text' => Customer::find($id)->name];
 		}
 		return $out;
 	}
@@ -118,13 +118,13 @@ class CompanyController extends MainController {
 	 * Finds the Company model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return Company the loaded model
+	 * @return Customer the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id)
 	{
 		
-		if (($company = Company::findOne($id)) !== null) {
+		if (($company = Customer::findOne($id)) !== null) {
 			//echo $invoiceModel->scenario;
 			
 			return $company;

@@ -2,7 +2,7 @@
 return [
 	'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
 	'layoutPath' => '@common/views/layouts',
-	'name' => 'PARQ',
+	'name' => 'CAR PARK SYSTEM',
 	'components' => [
 		'cache' => [
 			'class' => 'yii\caching\FileCache',
@@ -25,7 +25,7 @@ return [
 		'view' => [
 			'theme' => [
 				'pathMap' => [
-					'@dektrium/user/views' => '@common/views/user',
+					'@frontend/views/site/user' => '@common/views/user',
 					//'@dektrium/user/views/registration' => '@common/views/registration'
 
 				],
@@ -53,7 +53,7 @@ return [
 					],
 				],
 				'Wkii\AdminLTE\Asset\AdminLteAsset' => [
-					'skin' => 'skin-green',
+					'skin' => 'skin-blue',
 				],
 				'nullref\datatable\DataTableAsset' => [
 					'styling' => false,
@@ -79,43 +79,43 @@ return [
 
 	],
 	'modules' => [
-		'rbac' => 'dektrium\rbac\RbacWebModule',
+//		'rbac' => 'dektrium\rbac\RbacWebModule',
 		'gridview' => [
 			'class' => '\kartik\grid\Module',
 		],
-		'user' => [
-			'class' => 'dektrium\user\Module',
-			'enableUnconfirmedLogin' => true,
-			'enableRegistration' => false,
-			'enableConfirmation' => false,
-			'enableFlashMessages' => false,
-			'enablePasswordRecovery' => false,
-			'confirmWithin' => 21600,
-			'cost' => 12,
-			'admins' => ['admin'],
-			'adminPermission' => 'ADMIN',
-			'modelMap' => [
-				'LoginForm' => 'common\models\LoginForm',
-				'User' => 'common\models\User',
-				'RegistrationForm' => 'common\models\RegistrationForm',
-			],
-			'controllerMap' => [
-				'admin' => [
-					'class' => '\dektrium\user\controllers\AdminController',
-				],
-				'recovery' => [
-					'class' => '\common\controllers\RecoveryController',
-					'layout' => '/login',
-				],
-				'security' => [
-					'class' => '\common\controllers\SecurityController',
-					'layout' => '/single',
-				],
-				'registration' => [
-					'class' => '\common\controllers\RegistrationController',
-					'layout' => '//login',
-				],
-			],
-		],
+//		'user' => [
+//			'class' => 'dektrium\user\Module',
+//			'enableUnconfirmedLogin' => true,
+//			'enableRegistration' => false,
+//			'enableConfirmation' => false,
+//			'enableFlashMessages' => false,
+//			'enablePasswordRecovery' => false,
+//			'confirmWithin' => 21600,
+//			'cost' => 12,
+//			'admins' => ['admin'],
+//			'adminPermission' => 'ADMIN',
+//			'modelMap' => [
+//				'LoginForm' => 'common\models\LoginForm',
+//				'User' => 'common\models\User',
+//				'RegistrationForm' => 'common\models\RegistrationForm',
+//			],
+//			'controllerMap' => [
+//				'admin' => [
+//					'class' => '\dektrium\user\controllers\AdminController',
+//				],
+//				'recovery' => [
+//					'class' => '\common\controllers\RecoveryController',
+//					'layout' => '/login',
+//				],
+//				'security' => [
+//					'class' => '\common\controllers\SecurityController',
+//					'layout' => '/single',
+//				],
+//				'registration' => [
+//					'class' => '\common\controllers\RegistrationController',
+//					'layout' => '//login',
+//				],
+//			],
+//		],
 	],
 ];

@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 use common\models\CityMaster;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\BuildingMaster */
+/* @var $model common\models\Block */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

@@ -13,14 +13,14 @@ use Yii;
  * @property integer $tot_slots
  * @property string $address
  */
-class BuildingMaster extends \yii\db\ActiveRecord
+class Block extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'building_master';
+        return 'block';
     }
 
     /**

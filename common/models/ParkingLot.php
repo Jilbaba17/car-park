@@ -12,14 +12,14 @@ use yii\db\ActiveRecord;
  * This is the model class for table "tag_master".
  *
  * @property integer $tagid
- * @property integer $company
+ * @property integer $customer_id
  * @property string $employee_code
  * @property string $car_model
  * @property string $car_regno
  * @property integer $tagstatus
  * @property string $doissue
  */
-class TagMaster extends \yii\db\ActiveRecord {
+class ParkingLot extends \yii\db\ActiveRecord {
 	const SCENARIO_ASSIGN = 'assign';
 	/**
 	 * 
@@ -44,7 +44,7 @@ class TagMaster extends \yii\db\ActiveRecord {
      */
     public static function tableName()
     {
-        return 'tag_master';
+        return 'parking_lot';
     }
 
     /**
@@ -53,7 +53,7 @@ class TagMaster extends \yii\db\ActiveRecord {
     public function rules()
     {
         return [
-            [['car_model', 'car_regno', 'tagstatus', 'employee_code', 'company'], 'required', 'on' => self::SCENARIO_ASSIGN],
+            [['car_model', 'car_regno', 'tagstatus', 'employee_code', 'customer_id'], 'required', 'on' => self::SCENARIO_ASSIGN],
         	[['tagid', 'tagstatus', 'employee_code'], 'integer'],
             [['doissue'], 'safe'],
         	[['tagid'], 'required'],
@@ -72,6 +72,7 @@ class TagMaster extends \yii\db\ActiveRecord {
         return [
             'tagid' => Yii::t('app', 'Tagid'),
             'employee_code' => Yii::t('app', 'Employee'),
+            'customer_id' => Yii::t('app', 'Customer'),
             'car_model' => Yii::t('app', 'Vehicle Model'),
             'car_regno' => Yii::t('app', 'Vehicle Registration'),
             'tagstatus' => Yii::t('app', 'Tag Status'),
@@ -84,8 +85,8 @@ class TagMaster extends \yii\db\ActiveRecord {
     	->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS names"));
     }
     
-    public function getCompanyName() {
-    	return $this->hasOne(Company::className(), ['cid' => 'company'])->select('cid, name');
+    public function getCustomer() {
+    	return $this->hasOne(Customer::className(), ['cid' => 'company'])->select('cid, name');
     }
     
     public function getProfile() {

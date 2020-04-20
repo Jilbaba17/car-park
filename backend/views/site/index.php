@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $companyMap Array */
-/* @var $model common\models\Entry */
+/* @var $model common\models\ParkingSlip */
 /* @var $operation string */
 
 

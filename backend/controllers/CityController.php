@@ -8,8 +8,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\db\Query;
 use common\controllers\MainController;
-use common\models\BuildingMaster;
-use common\models\Company;
+use common\models\Block;
+use common\models\Customer;
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -117,10 +117,10 @@ class CityController extends MainController {
      */
     public function actionDelete($id)
     {
-    	if(BuildingMaster::find()->where('city_code=:code', [':code' => $id])->exists()) {
+    	if(Block::find()->where('city_code=:code', [':code' => $id])->exists()) {
     		\Yii::$app->session->setFlash('warning', 'Please dis-associate any buildings with this city before deleting');
     		
-    	} elseif (Company::find()->where('city_code=:code', [':code' => $id])->exists()) {
+    	} elseif (Customer::find()->where('city_code=:code', [':code' => $id])->exists()) {
     		\Yii::$app->session->setFlash('warning', 'Please dis-associate any companies with this city before deleting');
     		
     	} else {

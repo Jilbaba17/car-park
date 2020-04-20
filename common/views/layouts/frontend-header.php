@@ -26,7 +26,7 @@ Icon::map($this);
     <nav class="navbar navbar-static-top" role="navigation">
     <div class="container">
     	<div class="navbar-header">
-    		<a href="<?= Yii::$app->homeUrl ?>" class="navbar-brand"><?= Yii::$app->name ?></a>
+    		<a href="<?= Yii::$app->homeUrl ?>" class="navbar-brand"><?= Html::img('images/brand.png');?></a>
 <!--           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"> -->
 <!--             <i class="fa fa-bars"></i> -->
 <!--           </button> -->
@@ -57,7 +57,8 @@ Icon::map($this);
 //     ]
     	
 //     ]);
-    //if (!Yii::$app->user->isGuest) {
+    $userMenuItems = [];
+    if (!Yii::$app->user->isGuest) {
     	
     	$userMenuItems = [
     		
@@ -76,8 +77,6 @@ Icon::map($this);
 	    		],
     			'items' => [
 //     				'<span class="t-up"></span>',
-    				['label' => Icon::show('user', [], Icon::BSG) . '<span>My Profile</span>',
-    					'url' => ['//user/1']],
     					//                    ['label' => Icon::show('star', [], Icon::BSG) . 'Activity Log', 'url' => '#'],
     				['label' => Icon::show('cog', [], Icon::BSG) . '<span>Account Settings</span>', 
     				'url' => ['//user/settings/account']],
@@ -85,7 +84,7 @@ Icon::map($this);
     				//'<li class="divider"></li>',
     				[
     					'label'       => Icon::show('log-out', [], Icon::BSG) . '<span>Sign Out</span>',
-    					'url'         => ['//user/logout'],
+    					'url'         => ['site/logout'],
     					'linkOptions' => ['data-method' => 'post'],
 //     					'options' => [
 // 	    					'class' => 'footer'
@@ -96,7 +95,7 @@ Icon::map($this);
     		],
 
     	];
-   // }
+    }
     ?>
    <div class="navbar-custom-menu">
     

@@ -12,7 +12,7 @@ use Yii;
  * @property string $outtime
  * @property integer $status
  */
-class Entry extends \yii\db\ActiveRecord
+class ParkingSlip extends \yii\db\ActiveRecord
 {
 	const SCENARIO_CHECKIN = 'checkIn';
 	const SCENARIO_CHECKOUT = 'checkOut';
@@ -21,7 +21,7 @@ class Entry extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'entry';
+        return 'parking_slip';
     }
 
     /**
@@ -35,7 +35,7 @@ class Entry extends \yii\db\ActiveRecord
         	[['tagid', 'outtime', 'status'], 'required', 'on' => 'checkOut'],
             [['tagid', 'status'], 'integer'],
         	['tagid', 'validateCheckinStatus', 'on' => 'checkOut'],
-        	[['tagid'], 'exist', 'targetAttribute' => 'tagid', 'targetClass' => TagMaster::className()],
+        	[['tagid'], 'exist', 'targetAttribute' => 'tagid', 'targetClass' => ParkingLot::className()],
         	[['tagid'], 'validateCheckin', 'on' => 'checkIn'],
         	[['tagid'], 'validateCheckinFull', 'on' => 'checkIn'],	
         	
@@ -57,7 +57,7 @@ class Entry extends \yii\db\ActiveRecord
     
     public function validateCheckinStatus($attribute) {
     	if(!$this->hasErrors()) {
-    		if($this->scenario == Entry::SCENARIO_CHECKOUT && $this->status != 1) {
+    		if($this->scenario == ParkingSlip::SCENARIO_CHECKOUT && $this->status != 1) {
     			$this->addError($attribute, 'This vehicle has not been checked in');
     		}
     	}
@@ -65,13 +65,13 @@ class Entry extends \yii\db\ActiveRecord
     
     public function validateCheckinFull($attribute) {
     	if(!$this->hasErrors()) {
-    		$companyId = TagMaster::findOne($this->tagid)->company;
-    		$subQuery = TagMaster::find()->where('company=' . $companyId)->select('tagid');
-    		$companyCheckinCount = Entry::find()
+    		$companyId = ParkingLot::findOne($this->tagid)->company;
+    		$subQuery = ParkingLot::find()->where('company=' . $companyId)->select('tagid');
+    		$companyCheckinCount = ParkingSlip::find()
     		->where('status=1')
     		->andWhere(['IN', 'tagid', $subQuery])
     		->count();
-    		$totalSlots = Company::findOne($companyId)->noslots;
+    		$totalSlots = Customer::findOne($companyId)->noslots;
     		//echo "$totalSlots ===> $companyCheckinCount"; die;
     		
     		if($companyCheckinCount == $totalSlots) {

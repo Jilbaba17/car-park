@@ -8,7 +8,7 @@ use common\assets\AppAsset;
 use kartik\icons\Icon;
 use common\assets\AdminLteAsset;
 $appAssetBundle = AppAsset::register($this);
-AdminLteAsset::register($this);
+\Wkii\AdminLTE\Asset\AdminLteAsset::register($this);
 Icon::map($this);
 ?>
 <?php $this->beginPage() ?>
@@ -52,7 +52,7 @@ if(Yii::$app->session->hasFlash('success') || Yii::$app->session->hasFlash('dang
         ?>
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?= Yii::$app->homeUrl ?>"><img src="<?= $appAssetBundle->baseUrl ?>/images/logo_risksur.png" /></a>
+    <a href="<?= Yii::$app->homeUrl ?>"><img class="col-xs-12" src="<?= $appAssetBundle->baseUrl ?>/images/logo.png" /></a>
   </div>
   <!-- /.login-logo -->
   <?= $content ?>

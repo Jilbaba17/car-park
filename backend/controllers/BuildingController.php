@@ -3,12 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\BuildingMaster;
+use common\models\Block;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\db\Query;
 use common\controllers\MainController;
-use common\models\Company;
+use common\models\Customer;
 use yii\bootstrap\Html;
 
 /**
@@ -24,7 +24,7 @@ class BuildingController extends MainController {
     public function actionIndex() {
     	if(\Yii::$app->request->isAjax) {
     		\Yii::$app->response->format = Response::FORMAT_JSON;
-    		$buildings = BuildingMaster::find()
+    		$buildings = Block::find()
     		->with('city')
     		->asArray()
     		->all();
@@ -54,7 +54,7 @@ class BuildingController extends MainController {
      */
     public function actionCreate()
     {
-        $model = new BuildingMaster();
+        $model = new Block();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	if(! \Yii::$app->request->isAjax) {
@@ -112,7 +112,7 @@ class BuildingController extends MainController {
     
     public function actionDelete($id)
     {
-    	if (Company::find()->where('city_code=:code', [':code' => $id])->exists()) {
+    	if (Customer::find()->where('city_code=:code', [':code' => $id])->exists()) {
     		\Yii::$app->session->setFlash('warning', 'Please dis-associate any companies with this buiding before deleting');
     		
     	} else {
@@ -135,7 +135,7 @@ class BuildingController extends MainController {
     	if (!is_null($q)) {
     		$query = new Query();
     		$query->select('id, name AS text')
-    		->from(BuildingMaster::tableName())
+    		->from(Block::tableName())
     		->where(['OR', ['like', 'name', $q], ['like', 'address', $q]])
     		->limit(20);
     		$command = $query->createCommand();
@@ -143,7 +143,7 @@ class BuildingController extends MainController {
     		$out['results'] = array_values($data);
     	}
     	elseif ($id > 0) {
-    		$out['results'] = ['id' => $id, 'text' => BuildingMaster::find($id)->name];
+    		$out['results'] = ['id' => $id, 'text' => Block::find($id)->name];
     	}
     	return $out;
     }
@@ -152,12 +152,12 @@ class BuildingController extends MainController {
      * Finds the BuildingMaster model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return BuildingMaster the loaded model
+     * @return Block the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = BuildingMaster::findOne($id)) !== null) {
+        if (($model = Block::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested building does not exist.');

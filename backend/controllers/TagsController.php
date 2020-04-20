@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use common\models\TagMaster;
+use common\models\ParkingLot;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use yii\db\Expression;
@@ -46,7 +46,7 @@ class TagsController extends \yii\web\Controller
     {
     	if(\Yii::$app->request->isAjax) {
     		\Yii::$app->response->format = Response::FORMAT_JSON;
-    		$rsTags = TagMaster::find()
+    		$rsTags = ParkingLot::find()
     		->with(['user', 'companyName', 'profile']);
     		if(! \Yii::$app->user->can('SUPER_ADMIN')) {
     			$rsTags->where('company=' . \Yii::$app->user->identity->company_id);
@@ -65,7 +65,7 @@ class TagsController extends \yii\web\Controller
      * @return mixed
      */
     public function actionCreate() {
-    	$model = new TagMaster();
+    	$model = new ParkingLot();
     	
     	if ($model->load(\Yii::$app->request->post()) && $model->save()) {
     		\Yii::$app->session->setFlash('success', 'Tag added successfully');
@@ -142,12 +142,12 @@ class TagsController extends \yii\web\Controller
      * Finds the TagMaster model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TagMaster the loaded model
+     * @return ParkingLot the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-    	if (($model = TagMaster::findOne($id)) !== null) {
+    	if (($model = ParkingLot::findOne($id)) !== null) {
     		return $model;
     	} 
     	

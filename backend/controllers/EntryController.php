@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use common\models\Entry;
+use common\models\ParkingSlip;
 use common\controllers\MainController;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
@@ -11,11 +11,11 @@ class EntryController extends MainController
 {
     
     public function actionRecordEntry($operation = 'checkIn') {
-    	$model = new Entry();
+    	$model = new ParkingSlip();
     	
     	if(\Yii::$app->request->isPost) {
     		$model->load(\Yii::$app->request->post());
-    		$model->scenario = Entry::SCENARIO_CHECKIN;
+    		$model->scenario = ParkingSlip::SCENARIO_CHECKIN;
     		$model->intime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
     		$entry= $this->findTag($model->tagid);
     		if(isset($entry)) {
@@ -24,8 +24,8 @@ class EntryController extends MainController
     			//print_r($entry); die;
     		}
     			
-    		if($operation == Entry::SCENARIO_CHECKOUT) {
-    			$model->scenario = Entry::SCENARIO_CHECKOUT;
+    		if($operation == ParkingSlip::SCENARIO_CHECKOUT) {
+    			$model->scenario = ParkingSlip::SCENARIO_CHECKOUT;
     			$model->outtime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
     			unset($model->intime);
     		}
@@ -34,7 +34,7 @@ class EntryController extends MainController
     		}
     		if($model->validate()) {
     			$model->status = 1;
-    			if($model->scenario == Entry::SCENARIO_CHECKOUT) {
+    			if($model->scenario == ParkingSlip::SCENARIO_CHECKOUT) {
     				$model->status = 0;
     				
     			}
@@ -65,7 +65,7 @@ class EntryController extends MainController
      * Finds the Entry model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Entry the loaded model
+     * @return ParkingSlip the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -73,7 +73,7 @@ class EntryController extends MainController
     	//$model = new Invoices();
     	//$model->setScenario(Invoices::SCENARIO_UPDATE);
     	//$invoiceModel = $model->find()->where('invoiceId=:id', [':id' => $id]);
-    	if (($entry = Entry::findOne($id)) !== null) {
+    	if (($entry = ParkingSlip::findOne($id)) !== null) {
     		//echo $invoiceModel->scenario;
     		
     		return $entry;
@@ -84,10 +84,10 @@ class EntryController extends MainController
     /**
      * 
      * @param unknown $id
-     * @return \common\models\Entry|NULL
+     * @return \common\models\ParkingSlip|NULL
      */
     protected function findTag($id) {
-    	if (($entry = Entry::findOne($id)) !== null) {
+    	if (($entry = ParkingSlip::findOne($id)) !== null) {
     		//echo $invoiceModel->scenario;
     		
     		return $entry;
