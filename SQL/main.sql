@@ -64,20 +64,6 @@ CREATE TABLE `migration` (
 
 insert  into `migration`(`version`,`apply_time`) values ('m000000_000000_base',1499668338),('m130524_201442_init',1499674521),('m140209_132017_init',1499668393),('m140403_174025_create_account_table',1499668394),('m140504_113157_update_tables',1499668398),('m140504_130429_create_token_table',1499668399),('m140506_102106_rbac_init',1499668634),('m140830_171933_fix_ip_field',1499668400),('m140830_172703_change_account_table_name',1499668400),('m141222_110026_update_ip_field',1499668401),('m141222_135246_alter_username_length',1499668401),('m150614_103145_update_social_account_table',1499668404),('m150623_212711_fix_username_notnull',1499668404),('m151218_234654_add_timezone_to_profile',1499668404),('m160929_103127_add_last_login_at_to_user_table',1499668405),('m170710_081000_add_companyid_column_to_user_table',1499677601),('m170710_090159_add_phone_number_column_to_user_table',1499677640),('m170710_103445_add_firstName_andlastName_columns_to_user_table',1499696403),('m170717_072426_change_building_name_and_city_name_column_language',1500278641),('m170717_090716_drop_name_and_company_columns_from_tag_master_table',1500312230);
 
-/*Table structure for table `outry` */
-
-DROP TABLE IF EXISTS `outry`;
-
-CREATE TABLE `outry` (
-  `sno` int(11) NOT NULL AUTO_INCREMENT,
-  `out` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tagid` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  PRIMARY KEY (`sno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-/*Data for the table `outry` */
-
 /*Table structure for table `parking_lot` */
 
 DROP TABLE IF EXISTS `parking_lot`;
@@ -136,53 +122,6 @@ CREATE TABLE `payments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `payments` */
-
-/*Table structure for table `profile` */
-
-DROP TABLE IF EXISTS `profile`;
-
-CREATE TABLE `profile` (
-  `user_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `public_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gravatar_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gravatar_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `department` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gender` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8_unicode_ci,
-  `timezone` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_user_profile` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-/*Data for the table `profile` */
-
-insert  into `profile`(`user_id`,`name`,`public_email`,`gravatar_email`,`gravatar_id`,`department`,`gender`,`location`,`website`,`bio`,`timezone`) values (1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(15,NULL,NULL,NULL,NULL,'Human Resource','Male',NULL,NULL,NULL,NULL);
-
-/*Table structure for table `social_account` */
-
-DROP TABLE IF EXISTS `social_account`;
-
-CREATE TABLE `social_account` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `provider` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `client_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` text COLLATE utf8_unicode_ci,
-  `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `account_unique` (`provider`,`client_id`),
-  UNIQUE KEY `account_unique_code` (`code`),
-  KEY `fk_user_account` (`user_id`),
-  CONSTRAINT `fk_user_account` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-/*Data for the table `social_account` */
 
 /*Table structure for table `token` */
 
