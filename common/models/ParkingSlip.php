@@ -65,16 +65,16 @@ class ParkingSlip extends \yii\db\ActiveRecord
     
     public function validateCheckinFull($attribute) {
     	if(!$this->hasErrors()) {
-    		$companyId = ParkingLot::findOne($this->tagid)->company;
-    		$subQuery = ParkingLot::find()->where('customer_id=' . $companyId)->select('tagid');
-    		$companyCheckinCount = ParkingSlip::find()
+    		$customerId = ParkingLot::findOne($this->tagid)->customer_id;
+    		$subQuery = ParkingLot::find()->where('customer_id=' . $customerId)->select('tagid');
+    		$customerCheckinCount = ParkingSlip::find()
     		->where('status=1')
     		->andWhere(['IN', 'tagid', $subQuery])
     		->count();
-    		$totalSlots = Customer::findOne($companyId)->noslots;
+    		$totalSlots = Customer::findOne($customerId)->noslots;
     		//echo "$totalSlots ===> $companyCheckinCount"; die;
     		
-    		if($companyCheckinCount == $totalSlots) {
+    		if($customerCheckinCount == $totalSlots) {
     			$this->addError($attribute, 'There are no slots available for this company');
     		}
     		
