@@ -66,7 +66,7 @@ class ParkingSlip extends \yii\db\ActiveRecord
     public function validateCheckinFull($attribute) {
     	if(!$this->hasErrors()) {
     		$companyId = ParkingLot::findOne($this->tagid)->company;
-    		$subQuery = ParkingLot::find()->where('company=' . $companyId)->select('tagid');
+    		$subQuery = ParkingLot::find()->where('customer_id=' . $companyId)->select('tagid');
     		$companyCheckinCount = ParkingSlip::find()
     		->where('status=1')
     		->andWhere(['IN', 'tagid', $subQuery])
