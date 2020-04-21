@@ -13,7 +13,7 @@ use yii\bootstrap\Nav;
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><i class="fa fa-car"></i></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><?= Html::encode(Yii::$app->name) ?></span>
+        <span class="logo-lg"><?= Html::img('/images/brand.png') ?></span>
     </a>
 
     <!-- Header Navbar -->
