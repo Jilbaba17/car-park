@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
-$this->title = 'RFID Tags';
+$this->title = 'Parking Slots';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -19,8 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			    'columns' => [
 			        'tagid',
 			    	['data' => 'user.names', 'title' => 'Assigned To', 'defaultContent' => '(Not Assigned)'],
-			    	['data' => 'companyName.name', 'title' => 'Company', 'defaultContent' => '(Not Assigned)'],
-			    	['data' => 'profile.department', 'title' => 'Department', 'defaultContent' => '(Not Assigned)'],
+			    	['data' => 'customer.name', 'title' => 'Company', 'defaultContent' => '(Not Assigned)'],
 			    	['data' => 'car_model', 'title' => 'Vehicle Model', 'defaultContent' => '(Not Assigned)'],
 			    	['data' => 'car_regno', 'title' => 'Vehicle Reg No', 'defaultContent' => '(Not Assigned)'],
 			    		
@@ -50,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			    			'class' => 'bEdit btn btn-success btn-xs text-center',
 			    		],
 			    		'queryParams' => ['tagid'],
-			    		'label' => \kartik\icons\Icon::show('pencil') .  '</i>Edit',
+			    		'label' => \kartik\icons\Icon::show('edit') .  '</i>Edit',
 			    		//"targets" => count($columnsArray) ++
 			    	],
 			    	[

@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "company".
  *
  * @property integer $cid
- * @property integer $city_code
  * @property integer $bldg_code
  * @property string $name
  * @property integer $noslots
@@ -30,9 +29,8 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['city_code', 'bldg_code', 'name', 'noslots'], 'required'],
-            [['city_code', 'bldg_code', 'noslots'], 'integer'],
-        	[['city_code'], 'exist', 'targetAttribute' => 'id', 'targetClass' => CityMaster::className()],
+            [['bldg_code', 'name', 'noslots'], 'required'],
+            [['bldg_code', 'noslots'], 'integer'],
         	[['bldg_code'], 'exist', 'targetAttribute' => 'id', 'targetClass' => Block::className()],
         	
             [['name'], 'string', 'max' => 50],
@@ -46,7 +44,6 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             'cid' => Yii::t('app', 'Cid'),
-            'city_code' => Yii::t('app', 'City'),
             'bldg_code' => Yii::t('app', 'Building'),
             'name' => Yii::t('app', 'Name'),
             'noslots' => Yii::t('app', 'Number of slots'),
@@ -67,21 +64,13 @@ class Customer extends \yii\db\ActiveRecord
     
     
     
-    /**
-     * 
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCity() {
-    	return $this->hasOne(CityMaster::className(), ['id' => 'city_code']);
-    }
-    
+
     /**
      * 
      * @return \yii\db\ActiveQuery
      */
     public function getBuilding() {
     	return $this->hasOne(Block::className(), ['id' => 'bldg_code'])
-    		->select('id, city_code, address, name')
-    		->with('city');
+    		->select('id, address, name');
     }
 }

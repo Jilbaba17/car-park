@@ -47,9 +47,9 @@ class TagsController extends \yii\web\Controller
     	if(\Yii::$app->request->isAjax) {
     		\Yii::$app->response->format = Response::FORMAT_JSON;
     		$rsTags = ParkingLot::find()
-    		->with(['user', 'companyName', 'profile']);
-    		if(! \Yii::$app->user->can('SUPER_ADMIN')) {
-    			$rsTags->where('company=' . \Yii::$app->user->identity->company_id);
+    		->with(['user', 'customer']);
+    		if(! \Yii::$app->user->identity->role == 'SUPER_ADMIN') {
+    			$rsTags->where('customer_id =' . \Yii::$app->user->identity->customer_id);
     		}
     		$tags = $rsTags->asArray()->all();
     		return [
@@ -68,7 +68,7 @@ class TagsController extends \yii\web\Controller
     	$model = new ParkingLot();
     	
     	if ($model->load(\Yii::$app->request->post()) && $model->save()) {
-    		\Yii::$app->session->setFlash('success', 'Tag added successfully');
+    		\Yii::$app->session->setFlash('success', 'Slot added successfully');
     		return $this->redirect(['index']);
     		
     	}
@@ -88,7 +88,7 @@ class TagsController extends \yii\web\Controller
     	$model = $this->findModel($tagid);
     	
     	if ($model->load(\Yii::$app->request->post()) && $model->save()) {
-    		\Yii::$app->session->setFlash('success', 'Tag updated successfully');
+    		\Yii::$app->session->setFlash('success', 'Slot updated successfully');
     		
     		return $this->redirect(['index']);
     	}
@@ -107,7 +107,7 @@ class TagsController extends \yii\web\Controller
     public function actionDelete($tagid)
     {
     	$this->findModel($tagid)->delete();
-    	\Yii::$app->session->setFlash('success', 'Tag deleted successfully');
+    	\Yii::$app->session->setFlash('success', 'Slot deleted successfully');
     	
     	return $this->redirect(['index']);
     }

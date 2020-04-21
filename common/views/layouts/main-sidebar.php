@@ -57,7 +57,7 @@ use common\models\User;
             			],
             		],
             	],
-            	['label' => 'Customers', 'url' => false, 'icon' => 'fa-briefcase', 'pjax'=>true,
+            	['label' => 'Customers', 'url' => false, 'icon' => 'fa-user-tie', 'pjax'=>true,
                     'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
             			[
@@ -72,16 +72,16 @@ use common\models\User;
             			],
             		],
             	],
-            	['label' => 'Parking Slots', 'url' => false, 'icon' => 'fa-tags', 'pjax'=>true,
+            	['label' => 'Parking Slots', 'url' => false, 'icon' => 'fa-car', 'pjax'=>true,
                     'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
             		'items' => [
             			[
-            				'label' => 'View Tags',
+            				'label' => 'View Slots',
             				'url' => ['/tags/index'],
             				'icon' => 'fa-link',
             			],
             			[
-            				'label' => 'Add Tag',
+            				'label' => 'Add Slot',
             				'url' => ['/tags/create'],
             				'icon' => 'fa-link',
             			],

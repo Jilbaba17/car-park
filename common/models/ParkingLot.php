@@ -70,7 +70,7 @@ class ParkingLot extends \yii\db\ActiveRecord {
     public function attributeLabels()
     {
         return [
-            'tagid' => Yii::t('app', 'Tagid'),
+            'tagid' => Yii::t('app', 'Slot ID'),
             'employee_code' => Yii::t('app', 'Employee'),
             'customer_id' => Yii::t('app', 'Customer'),
             'car_model' => Yii::t('app', 'Vehicle Model'),
@@ -86,10 +86,8 @@ class ParkingLot extends \yii\db\ActiveRecord {
     }
     
     public function getCustomer() {
-    	return $this->hasOne(Customer::className(), ['cid' => 'company'])->select('cid, name');
+    	return $this->hasOne(Customer::className(), ['cid' => 'customer_id'])->select('cid, name');
     }
     
-    public function getProfile() {
-    	return $this->hasOne(Profile::className(), ['user_id' => 'employee_code'])->select('user_id, department');
-    }
+
 }

@@ -5,29 +5,26 @@ use yii\bootstrap\Html;
 use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
-$this->title = 'Companies';
+$this->title = 'Customers';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="row">
 	<div class="col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-			<div class="pull-right"><?= Html::button(Icon::show('info-circle') . "CSV Upload?", [
-					'class' => 'showModalButton btn btn-success',
-					'value' => Url::to(['company/csv-info']),
-					'title' => 'Company CSV upload',
-					//'data-modal-size' => 'modal-sm'
-					
-			]) ?></div></div>
+		<div class="box box-primary">
+
 			<div class="box-body">
 			<?= \nullref\datatable\DataTable::widget([
 				'ajax' => Url::to(['index', 'ajax' => true]),
+                'dom' => 'Bfrtip',
+                'buttons' => [
+                    'excel',
+                    'pdf'
+                ],
 			    'columns' => [
 			        'name',
 			    	['data' => 'building.name', 'title' => 'Building Name'],
 			    	['data' => 'building.address', 'title' => 'Building Address'],
-			    	['data' => 'building.city.name', 'title' => 'City'],
 			        'noslots',
 			    	[
 			    		'class' => 'nullref\datatable\LinkColumn',
@@ -36,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			    			'class' => 'bEdit btn btn-success btn-xs text-center',
 			    		],
 			    		'queryParams' => ['cid'],
-			    		'label' => \kartik\icons\Icon::show('pencil') .  '</i>Edit',
+			    		'label' => \kartik\icons\Icon::show('edit') .  '</i>Edit',
 			    		//"targets" => count($columnsArray) ++
 			    	],
 			    	[
