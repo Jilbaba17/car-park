@@ -34,8 +34,8 @@ class ParkingSlip extends \yii\db\ActiveRecord
             [['tagid', 'intime', 'status'], 'required', 'on' => 'checkIn'],
         	[['tagid', 'outtime', 'status'], 'required', 'on' => 'checkOut'],
             [['tagid', 'status'], 'integer'],
+        	['tagid', 'exist', 'targetAttribute' => 'tagid', 'targetClass' => ParkingLot::className(), 'on' => self::SCENARIO_CHECKIN],
         	['tagid', 'validateCheckinStatus', 'on' => 'checkOut'],
-        	[['tagid'], 'exist', 'targetAttribute' => 'tagid', 'targetClass' => ParkingLot::className()],
         	[['tagid'], 'validateCheckin', 'on' => 'checkIn'],
         	[['tagid'], 'validateCheckinFull', 'on' => 'checkIn'],	
         	
@@ -48,7 +48,7 @@ class ParkingSlip extends \yii\db\ActiveRecord
 	    	$checkInCount = $this->find()
 		    	->where(['AND', ['=', 'tagid', $this->tagid], ['=', 'status', 1]])
 		    	->count();
-	    	if($checkInCount > 0) {
+	    	if($checkInCount > 0 ) {
 	    		$this->addError($attribute, 'This vehicle has already been checked in');
 	    		
 	    	}

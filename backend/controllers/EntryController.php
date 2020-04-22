@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\ParkingSlip;
 use common\controllers\MainController;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
 
@@ -12,53 +13,66 @@ class EntryController extends MainController
     
     public function actionRecordEntry($operation = 'checkIn') {
     	$model = new ParkingSlip();
-    	
+        if (\Yii::$app->request->isAjax){
+
+//    			return Json::encode(\yii\widgets\ActiveForm::validate($model));
+            return Json::encode([]);
+        }
     	if(\Yii::$app->request->isPost) {
     		$model->load(\Yii::$app->request->post());
-    		$model->scenario = ParkingSlip::SCENARIO_CHECKIN;
-    		$model->intime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
-    		$entry= $this->findTag($model->tagid);
-    		if(isset($entry)) {
-    			$model->setIsNewRecord(false);
-    			$model->status = $entry->status;
-    			//print_r($entry); die;
-    		}
-    			
+            $result = false;
+    		if($operation == ParkingSlip::SCENARIO_CHECKIN) {
+                $result = $this->checkIn($model);
+            }
     		if($operation == ParkingSlip::SCENARIO_CHECKOUT) {
-    			$model->scenario = ParkingSlip::SCENARIO_CHECKOUT;
-    			$model->outtime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
-    			unset($model->intime);
-    		}
-    		if (\Yii::$app->request->isAjax){
-    			return json_encode(\yii\widgets\ActiveForm::validate($model));
-    		}
-    		if($model->validate()) {
-    			$model->status = 1;
-    			if($model->scenario == ParkingSlip::SCENARIO_CHECKOUT) {
-    				$model->status = 0;
+                $result = $this->checkOut($model);
+
+            }
+
+    		if($result && $model->save(false)) {
     				
-    			}
-    			//var_dump($model); die;
-    			$model->save(false);
-    				
-    			\Yii::$app->session->setFlash('success', "Vehicle ". $model->generateAttributeLabel($operation) . " successful", false);
-    		}
+    			\Yii::$app->session->addFlash('success', "Vehicle ". $model->generateAttributeLabel($operation) . " successful");
+    		} else {
+                \Yii::$app->session->addFlash('danger', "Vehicle ". $model->generateAttributeLabel($operation) . " failed");
+
+            }
     	}
-    	// Build company map and send it to view
-    	//     	$companyMap = ArrayHelper::map(Company::find()
-    	//     			->select('cid, name')
-    	//     			->asArray()
-    	//     			->all(), 'cid', 'name');
-    	
+
     	$url = Url::to(['site/index', 'operation' => $operation]);
     	
-    	//echo $url; die;
     	return $this->redirect($url);
-    	//     	return $this->render('index', [
-    	//     		'model' => $model,
-    	//     		'companyMap' => $companyMap
-    	//     	]);
-    	
+    }
+
+    private function checkIn(ParkingSlip &$model) {
+        $model->scenario = ParkingSlip::SCENARIO_CHECKIN;
+        $model->status = 1;
+        $model->intime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
+        if($model->validate()) {
+
+            return true;
+        }
+        return false;
+
+    }
+    private function checkOut(ParkingSlip &$model) {
+        $entry= $this->findTag($model->tagid);
+        if($entry) {
+            $model->scenario = ParkingSlip::SCENARIO_CHECKOUT;
+            $model->id = $entry->id;
+            $model->status = $entry->status;
+            $model->intime = $entry->intime;
+            $model->setIsNewRecord(false);
+            $model->outtime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
+           // var_dump($model->attributes, $model->validate()); die;
+            if (!$model->validate()) {
+                return false;
+            } 
+            $model->status = 0;
+            return true;
+        }
+        \Yii::$app->session->addFlash('warning', 'Vehicle has not been checked in');
+        return false;
+
     }
     
     /**
@@ -87,7 +101,7 @@ class EntryController extends MainController
      * @return \common\models\ParkingSlip|NULL
      */
     protected function findTag($id) {
-    	if (($entry = ParkingSlip::findOne($id)) !== null) {
+    	if (($entry = ParkingSlip::find()->where(['tagid' => $id])->orderBy(['intime' => SORT_DESC])->one()) !== null) {
     		//echo $invoiceModel->scenario;
     		
     		return $entry;
