@@ -47,6 +47,7 @@ class EntryController extends MainController
         $model->scenario = ParkingSlip::SCENARIO_CHECKIN;
         $model->status = 1;
         $model->intime = \Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d h:i:s');
+        $model->date = \Yii::$app->formatter->asDate(time());
         if($model->validate()) {
 
             return true;
