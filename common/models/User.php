@@ -26,6 +26,11 @@ class User extends ActiveRecord implements IdentityInterface {
 	const CHECKIN_ROLES = [
 	    'SUPER_ADMIN', 'GUARD'
     ];
+	const ROLES = [
+	    'USER',
+	    'SUPER_ADMIN',
+	    'GUARD',
+    ];
 
 	//public $role;
 
@@ -46,10 +51,10 @@ class User extends ActiveRecord implements IdentityInterface {
 		$rules['phone_number_unique'] = ['user_phone_number', 'unique'];
 
 		$rules['customer_id_required'] = ['user_customer_id', 'required', 'when' => function ($model) {
-			return !\Yii::$app->user->can('SUPER_ADMIN');
+			return !\Yii::$app->user->identity->user_role == 'SUPER_ADMIN';
 		}, 'whenClient' => "function (attribute, value) {
 
-                return " . !\Yii::$app->user->can('SUPER_ADMIN') . ";
+                return " . !\Yii::$app->user->identity->user_role == 'SUPER_ADMIN' . ";
             }",
 		];
 
