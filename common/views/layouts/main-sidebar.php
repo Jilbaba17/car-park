@@ -105,8 +105,10 @@ use common\models\User;
             		],
                 ['label' => 'Manage Users', 'url' => false, 'icon' =>'fa-users', 'pjax'=>true,
             			'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
+            			'items' => [
                 		['label' => 'View Users', 'url' => ['/users/index'], 'icon' => 'fa-link'],
                 		['label' => 'Add users', 'url' => ['/users/create'], 'icon' => 'fa-link'],
+                		]
                 ]
 
 //                 [

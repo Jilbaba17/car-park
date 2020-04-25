@@ -26,6 +26,11 @@ class User extends ActiveRecord implements IdentityInterface {
 	const CHECKIN_ROLES = [
 	    'SUPER_ADMIN', 'GUARD'
     ];
+	const ROLES = [
+	    'USER',
+	    'SUPER_ADMIN',
+	    'GUARD',
+    ];
 
 	//public $role;
 
@@ -38,18 +43,18 @@ class User extends ActiveRecord implements IdentityInterface {
 
 	public function rules() {
 		$rules = parent::rules();
-		$rules['role_default'] = ['role', 'default', 'value' => 'USER'];
-		$rules['new_required'] = [['phone_number', 'firstName', 'lastName', 'email', 'role'], 'required'];
-		$rules['phone_number_length'] = ['phone_number', 'string', 'length' => 10];
-		$rules['phone_number_int'] = ['phone_number', 'match', 'pattern' => '/[0-9]{2}\d{8}/',
+		$rules['role_default'] = ['user_role', 'default', 'value' => 'USER'];
+		$rules['new_required'] = [['user_phone_number', 'user_firstName', 'user_lastName', 'user_email', 'user_role'], 'required'];
+		$rules['phone_number_length'] = ['user_phone_number', 'string', 'length' => 10];
+		$rules['phone_number_int'] = ['user_phone_number', 'match', 'pattern' => '/[0-9]{2}\d{8}/',
 			'message' => 'Phone number should contain letters only'];
-		$rules['phone_number_unique'] = ['phone_number', 'unique'];
+		$rules['phone_number_unique'] = ['user_phone_number', 'unique'];
 
-		$rules['customer_id_required'] = ['customer_id', 'required', 'when' => function ($model) {
-			return !\Yii::$app->user->can('SUPER_ADMIN');
+		$rules['customer_id_required'] = ['user_customer_id', 'required', 'when' => function ($model) {
+			return !\Yii::$app->user->identity->user_role == 'SUPER_ADMIN';
 		}, 'whenClient' => "function (attribute, value) {
 
-                return " . !\Yii::$app->user->can('SUPER_ADMIN') . ";
+                return " . !\Yii::$app->user->identity->user_role == 'SUPER_ADMIN' . ";
             }",
 		];
 

@@ -16,34 +16,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'ajax' => Url::to(['index', 'ajax' => true]),
 			    'columns' => [
 			    	['data' => 'names', 'title' => 'Names', 'defaultContent' => '(Not set)'],
-			    	['data' => 'profile.department', 'title' => 'Department', 'defaultContent' => '(Not Assigned)'],
 			    	[
 			    			'data' => 'company.name', 
 			    			'title' => 'Company Name', 
 			    			'defaultContent' => '(Not Assigned)', 
-			    			'visible' => Yii::$app->user->can('SUPER_ADMIN') ? true : false
+			    			'visible' => Yii::$app->user->identity->user_role == 'SUPER_ADMIN'
 			    			
 			    	],
-			    	['data' => 'phone_number', 'title' => 'Phone Number', 'defaultContent' => '(Not Assigned)'],
+			    	['data' => 'user_phone_number', 'title' => 'Phone Number', 'defaultContent' => '(Not Assigned)'],
 			    	
-			    	[
-			    			'data' => 'profile.gender', 
-			    			'title' => 'Gender', 
-			    			
-			    	],
-			    	
-			    	//['data' => 'doissue', 'title' => 'Issued On', 'defaultContent' => '(Not Issued)'],
-			    	
-// 		    		[
-// 		    				'class' => 'nullref\datatable\LinkColumn',
-// 		    				'url' => \yii\helpers\Url::to(['tags/assign']),
-// 		    				'options' => [
-// 		    						'class' => 'bEdit btn btn-info btn-xs text-center',
-// 		    				],
-// 		    				'queryParams' => ['tagid'],
-// 		    				'label' => \kartik\icons\Icon::show('link') .  '</i>Assign',
-// 		    				//"targets" => count($columnsArray) ++
-// 		    		],
+
 			    	[
 			    		'class' => 'nullref\datatable\LinkColumn',
 			    		'url' => \yii\helpers\Url::to(['users/update']),
@@ -51,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			    			'class' => 'bEdit btn btn-success btn-xs text-center',
 			    		],
 			    		'queryParams' => ['id'],
-			    		'label' => \kartik\icons\Icon::show('pencil') .  '</i>Edit',
+			    		'label' => \kartik\icons\Icon::show('edit') .  '</i>Edit',
 			    		//"targets" => count($columnsArray) ++
 			    	],
 			    	[

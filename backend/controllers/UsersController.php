@@ -16,40 +16,23 @@ class UsersController extends MainController
     public function actionCreate()
     {
     	$model = new User();
-    	$profile = new Profile();
-    	//$profile->link('user', $model);
-    	
-    	$transaction = \Yii::$app->db->beginTransaction();
+
     	if(\Yii::$app->request->isPost) {
 	    	try {
 		    		$model->load(\Yii::$app->request->post());
-		    		$model->generateUsername();
-		    		$model->password_hash = $model->username;
-		    		$profile->load(\Yii::$app->request->post());
-		    		$model->setProfile($profile);
+		    		$model->password_hash = \Yii::$app->security->generatePasswordHash(\Yii::$app->security->generateRandomString());
 		    		$model->save();
-// 		    		print_r($_POST);
-// 		    		print_r($model->attributes);
-// 		    		print_r($profile->attributes); die;
-		    		//$model->link('profile', $profile);
-		    		$transaction->commit();
 		    		\Yii::$app->session->setFlash('success', 'User added successfully');
-		    		if(\Yii::$app->user->can('SUPER_ADMIN')) {
-		    			\Yii::$app->session->setFlash('info', 'Kindly select a role for the new user');
-		    			return $this->redirect(['update', 'id' => $model->id]);
-		    		}
 		    		return $this->redirect(['index']);
 		    	
 	    	} catch(\Throwable $e) {
-	    		$transaction->rollBack();
-	    		throw $e;
+	    		\Yii::error('danger', $e->getMessage());
+                \Yii::$app->session->setFlash('danger', 'User was not added successfully');
 	    	}
     	}
    		//print_r($model->attributes); die;
         return $this->render('create', [
         		'model' => $model,
-        		'profile' => $profile,
-        		//'assignment' => $assignment
         ]);
     }
 	
@@ -65,10 +48,9 @@ class UsersController extends MainController
     	if(\Yii::$app->request->isAjax) {
     		\Yii::$app->response->format = Response::FORMAT_JSON;
     		$rsUsers = User::find()
-    		->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS names, phone_number, company_id"))
-    		->with('profile');
-    		if(\Yii::$app->user->can('SUPER_ADMIN')) {
-    			$rsUsers->with(['company', 'profile']);
+    		->select(new Expression("id, CONCAT_WS(' ', user_firstName, user_lastName) AS names, user_phone_number, user_customer_id"));
+    		if(\Yii::$app->user->identity->user_role == 'SUPER_ADMIN') {
+    			$rsUsers->with(['customer']);
     		}
     		$users = $rsUsers->asArray()->all();
     		return [
@@ -82,26 +64,21 @@ class UsersController extends MainController
     public function actionUpdate($id)
     {
     	$model = $this->findModel($id);
-    	$model->role = key(ArrayHelper::getColumn(\Yii::$app->authManager->getRolesByUser($id), 'name'));
+    	$model->user_role = User::ROLES;
     	//print_r($model->role); die;
-    	$profile = Profile::findOne($id);
-    	
+
     	if ($model->load(\Yii::$app->request->post()) ) {
-    		$profile->load(\Yii::$app->request->post());
-    		//$model->setProfile($profile);
-    		//print_r($profile->attributes); die;
     		$model->save();
-    		$profile->save();
-    		$assignment = new Assignment(['user_id' => $model->id]);
-    		$assignment->items[] = $model->role;
-    		$assignment->updateAssignments();
-    		\Yii::$app->session->setFlash('success', 'User updated successfully');
+    		if(!empty($model->password_hash)) {
+                $model->password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
+            }
+
+            \Yii::$app->session->setFlash('success', 'User updated successfully');
     		return $this->redirect(['index']);
     	}
     	
     	return $this->render('update', [
     			'model' => $model,
-    			'profile' => $profile,
     	]);
     }
     
