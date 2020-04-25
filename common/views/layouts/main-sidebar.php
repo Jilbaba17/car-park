@@ -12,7 +12,7 @@ use common\models\User;
                 ['label' => 'NAVIGATION', 'options' => ['class' => 'header']],
             		
             		['label' => 'Check In / Check out', 'url' => false, 'icon' => 'fa-car', 'pjax'=>true,
-            				'visible' => in_array(Yii::$app->user->identity->role, User::CHECKIN_ROLES),
+            				'visible' => in_array(Yii::$app->user->identity->user_role, User::CHECKIN_ROLES),
             				'items' => [
             						[
             								'label' => 'Check In',
@@ -43,7 +43,7 @@ use common\models\User;
             		],
             	],
             	['label' => 'Blocks', 'url' => false, 'icon' => 'fa-building', 'pjax'=>true,
-                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
+                    'visible' => Yii::$app->user->identity->user_role == 'SUPER_ADMIN',
             		'items' => [
             			[
             				'label' => 'View Blocks',
@@ -58,7 +58,7 @@ use common\models\User;
             		],
             	],
             	['label' => 'Customers', 'url' => false, 'icon' => 'fa-user-tie', 'pjax'=>true,
-                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
+                    'visible' => Yii::$app->user->identity->user_role == 'SUPER_ADMIN',
             		'items' => [
             			[
             				'label' => 'View Customers',
@@ -73,7 +73,7 @@ use common\models\User;
             		],
             	],
             	['label' => 'Parking Slots', 'url' => false, 'icon' => 'fa-car', 'pjax'=>true,
-                    'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
+                    'visible' => Yii::$app->user->identity->user_role == 'SUPER_ADMIN',
             		'items' => [
             			[
             				'label' => 'View Slots',
@@ -104,7 +104,7 @@ use common\models\User;
             				],
             		],
                 ['label' => 'Manage Users', 'url' => false, 'icon' =>'fa-users', 'pjax'=>true,
-            			'visible' => Yii::$app->user->identity->role == 'SUPER_ADMIN',
+            			'visible' => Yii::$app->user->identity->user_role == 'SUPER_ADMIN',
                 		['label' => 'View Users', 'url' => ['/users/index'], 'icon' => 'fa-link'],
                 		['label' => 'Add users', 'url' => ['/users/create'], 'icon' => 'fa-link'],
                 ]

@@ -19,12 +19,12 @@ use common\models\CityMaster;
     	]
     ]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'Block_name')->textInput(['maxlength' => true]) ?>
 
 
-    <?= $form->field($model, 'tot_slots')->textInput() ?>
+    <?= $form->field($model, 'Block_tot_slots')->textInput() ?>
 
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'Block_address')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

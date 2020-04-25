@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'pdf'
                     ],
                     'columns' => [
-                        'name',
+                        'Block_name',
 //			    	'city.name',
-                        'address',
-                        'tot_slots',
+                        'Block_address',
+                        'Block_tot_slots',
 
                         [
                             'class' => 'nullref\datatable\LinkColumn',

@@ -64,7 +64,7 @@ Icon::map($this);
     		
     		[
     			'label' => Icon::show('user', [], Icon::BSG) . '<span class="hidden-xs">' .
-    			Yii::$app->user->identity->firstName . ' ' . Yii::$app->user->identity->lastName . '</span>',
+    			Yii::$app->user->identity->user_firstName . ' ' . Yii::$app->user->identity->user_lastName . '</span>',
     			'linkOptions' => [
     				'class' => "dropdown-toggle",
     				'title' => "My Profile"

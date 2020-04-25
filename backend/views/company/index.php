@@ -22,17 +22,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     'pdf'
                 ],
 			    'columns' => [
-			        'name',
-			    	['data' => 'building.name', 'title' => 'Building Name'],
-			    	['data' => 'building.address', 'title' => 'Building Address'],
-			        'noslots',
+			        'customer_name',
+			    	['data' => 'block.Block_name', 'title' => 'Block Name'],
+			    	['data' => 'block.Block_address', 'title' => 'Block Address'],
+			        'customer_noslots',
 			    	[
 			    		'class' => 'nullref\datatable\LinkColumn',
 			    		'url' => \yii\helpers\Url::to(['company/update']),
 			    		'options' => [
-			    			'class' => 'bEdit btn btn-success btn-xs text-center',
+			    			'class' => 'btn btn-success btn-xs text-center',
 			    		],
-			    		'queryParams' => ['cid'],
+			    		'queryParams' => ['customer_id'],
 			    		'label' => \kartik\icons\Icon::show('edit') .  '</i>Edit',
 			    		//"targets" => count($columnsArray) ++
 			    	],
@@ -40,15 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			    		'class' => 'nullref\datatable\LinkColumn',
 			    		'url' => \yii\helpers\Url::to(['company/delete']),
 			    		'options' => [
-			    			'class' => 'bDelete btn btn-danger btn-xs text-center',
+			    			'class' => 'btn btn-danger btn-xs text-center',
 			    			'data-confirm' => 'Are you sure you want to delete this company?',
 			    			'data-method' => 'post'
 			    		],
-			    		'queryParams' => ['cid'],
+			    		'queryParams' => ['customer_id'],
 			    		'label' => \kartik\icons\Icon::show('trash') .  '</i>Delete',
 			    		//"targets" => count($columnsArray) ++
 			    	]
-			        //'noslots'
+			        //'customer_noslots'
 			    ],
 				'responsive' => true,
 				'tableOptions'=>[

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "building_master".
@@ -29,10 +30,10 @@ class Block extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'tot_slots', 'address'], 'required'],
-            [['tot_slots'], 'integer'],
-            [['name'], 'string', 'max' => 200],
-            [['address'], 'string', 'max' => 255],
+            [['Block_name', 'Block_tot_slots', 'Block_address'], 'required'],
+            [['Block_tot_slots'], 'integer'],
+            [['Block_name'], 'string', 'max' => 200],
+            [['Block_address'], 'string', 'max' => 255],
         ];
     }
 
@@ -42,19 +43,20 @@ class Block extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'city_code' => Yii::t('app', 'City Code'),
-            'tot_slots' => Yii::t('app', 'Tot Slots'),
-            'address' => Yii::t('app', 'Address'),
+            'block_id' => Yii::t('app', 'Block ID'),
+            
         ];
     }
     
+    
+
     /**
-     * 
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
-    public function getCity() {
-    	return $this->hasOne(CityMaster::className(), ['id' => 'city_code']);
+    public static function getBlocks() {
+        $blocksArray = [];
+        $rsBlocks = Block::find()->select('Block_id, Block_name')->asArray()->all();
+        $blocksArray = ArrayHelper::map($rsBlocks, 'Block_id', 'Block_name');
+        return $blocksArray;
     }
 }

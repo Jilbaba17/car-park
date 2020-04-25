@@ -73,12 +73,12 @@ class SiteController extends MainController
     		$companySpaces = Customer::findOne($companyId)->noslots;
     		// Get available company slots
     		$subQuery = ParkingLot::find()
-    		->select('tagid')
+    		->select('park_tagid')
     		->where('customer_id =' . $companyId);
     		
-    		$takenSpaces = ParkingSlip::find()
-    		->select('tagid')
-    		->where(['IN', 'tagid', $subQuery])
+    		$takenSpaces = parkingslip::find()
+    		->select('park_tagid')
+    		->where(['IN', 'park_tagid', $subQuery])
 //     		->andWhere(['AND', 'DATE(intime) = DATE(NOW())', 'outtime IS NULL'])
     		->andWhere(['=', 'status', 1])
     		->count();
@@ -94,9 +94,9 @@ class SiteController extends MainController
     	}
     	// Build company map and send it to view
     	$companyMap = ArrayHelper::map(Customer::find()
-    	->select('cid, name')
+    	->select('customer_id, customer_name')
         ->asArray()
-    	->all(), 'cid', 'name');
+    	->all(), 'customer_id', 'customer_name');
     	//print_r(\Yii::$app->session->getAllFlashes(true)); die;
     	//echo $operation; die;
     	///var_dump($availableSpaces); die;
@@ -128,7 +128,7 @@ class SiteController extends MainController
         } 
         
         return $this->render('login', [
-        	'model' => $model,
+        	'park_car_model' => $park_car_model,
         ]);
     }
 

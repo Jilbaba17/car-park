@@ -19,7 +19,7 @@ class CompanyController extends MainController {
 		if(\Yii::$app->request->isAjax) {
 			\Yii::$app->response->format = Response::FORMAT_JSON;
 			$rsCompanies = Customer::find()
-			->with(['building'])
+			->with(['block'])
 			->asArray()
 			->all();
 			return [
@@ -94,9 +94,9 @@ class CompanyController extends MainController {
 		$out = ['results' => ['id' => '', 'text' => '']];
 		if (!is_null($q)) {
 			$query = new Query();
-			$query->select('cid AS id, name AS text')
+			$query->select('customer_id AS id, customer_name AS text')
 			->from(Customer::tableName())
-			->where(['like', 'name', $q])
+			->where(['like', 'customer_name', $q])
 			->limit(20);
 			$command = $query->createCommand();
 			$data = $command->queryAll();

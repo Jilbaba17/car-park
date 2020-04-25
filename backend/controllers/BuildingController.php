@@ -73,15 +73,7 @@ class BuildingController extends MainController {
         ]);
        
     }
-    /**
-     * 
-     * @return string
-     */
-    public function actionCsvInfo() {
-    	$content = '';
-    	$content = Html::img(\Yii::$app->homeUrl . 'images/building-csv.jpg');
-    	return $content;
-    }
+  
 
     /**
      * Updates an existing BuildingMaster model.
@@ -111,41 +103,15 @@ class BuildingController extends MainController {
     
     public function actionDelete($id)
     {
-    	if (Customer::find()->where('city_code=:code', [':code' => $id])->exists()) {
-    		\Yii::$app->session->setFlash('warning', 'Please dis-associate any companies with this buiding before deleting');
-    		
-    	} else {
-    		$this->findModel($id)->delete();
+    	if ($this->findModel($id)->delete()) {
     		\Yii::$app->session->setFlash('success', 'Building deleted successfully');
-    	}
+        }
+    	
     	
     	
     	return $this->redirect(['index']);
     }
-    /**
-     * 
-     * @param string $q
-     * @param string $id
-     * @return string
-     */
-    public function actionGetBuildings($q = null, $id = null) {
-    	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    	$out = ['results' => ['id' => '', 'text' => '']];
-    	if (!is_null($q)) {
-    		$query = new Query();
-    		$query->select('id, name AS text')
-    		->from(Block::tableName())
-    		->where(['OR', ['like', 'name', $q], ['like', 'address', $q]])
-    		->limit(20);
-    		$command = $query->createCommand();
-    		$data = $command->queryAll();
-    		$out['results'] = array_values($data);
-    	}
-    	elseif ($id > 0) {
-    		$out['results'] = ['id' => $id, 'text' => Block::find($id)->name];
-    	}
-    	return $out;
-    }
+    
 
     /**
      * Finds the BuildingMaster model based on its primary key value.

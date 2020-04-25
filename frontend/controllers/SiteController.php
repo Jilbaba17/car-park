@@ -86,13 +86,13 @@ class SiteController extends MainController
     		$companySpaces = Customer::findOne(\Yii::$app->user->identity['customer_id'])->noslots;
     		// Get available customer slots
     		$subQuery = ParkingLot::find()
-    		->select('tagid')
+    		->select('park_tagid')
     		->where('customer_id =' . \Yii::$app->user->identity['customer_id']);
     		
     		$takenSpaces = ParkingSlip::find()
-    		->select('tagid')
-    		->where(['IN', 'tagid', $subQuery])
-    		->andWhere(['AND', 'status=1'])
+    		->select('park_tagid')
+    		->where(['IN', 'park_tagid', $subQuery])
+    		->andWhere(['AND', 'park_tagstatus=1'])
     		->count();
     		$availableSpaces = $companySpaces - $takenSpaces;
     		$parkingAvailablePercentage = floor(($takenSpaces / $companySpaces) * 100);
@@ -106,14 +106,14 @@ class SiteController extends MainController
     		];
     	}
     	$user = User::find()
-    	->where('id=' . \Yii::$app->user->id)
-    	->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS names"))
+    	->where('user_id=' . \Yii::$app->user->id)
+    	->select(new Expression("user_id, CONCAT_WS(' ', user_firstName, user_lastName) AS names"))
     	->asArray()
     	->one();
     	///var_dump($availableSpaces); die;
         return $this->render('index', [
         		'user' => $user,
-        		'companyName' => Customer::findOne(\Yii::$app->user->identity['customer_id'])->name,
+        		'companyName' => Customer::findOne(\Yii::$app->user->identity->user_customer_id)->customer_name,
         		
         		
         ]);

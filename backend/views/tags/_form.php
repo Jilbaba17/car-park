@@ -33,7 +33,7 @@ $form = ActiveForm::begin([
 		<?php 
 		
 		
-		echo $form->field($model, 'tagid');
+		echo $form->field($model, 'park_tagid');
 		
 		
 		?>

@@ -4,7 +4,7 @@
 
 $this->title = 'Assign Tag';
 $this->params['breadcrumbs'][] = ['label' => 'Tags', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->tagid, 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->park_tagid, 'url' => ['index']];
 //$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="tag-master-assign">

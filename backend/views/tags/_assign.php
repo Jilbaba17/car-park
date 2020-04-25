@@ -4,7 +4,6 @@ use yii\bootstrap\Html;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
 use common\models\Block;
-use common\models\CityMaster;
 use yii\web\JsExpression;
 use kartik\widgets\DepDrop;
 
@@ -34,12 +33,12 @@ $form = ActiveForm::begin([
 		<?php 
 		
 		
-		echo $form->field($model, 'tagid');
+		echo $form->field($model, 'park_tagid');
 		
-		if(Yii::$app->user->can('SUPER_ADMIN')) {
-			echo $form->field($model, 'company')->widget(Select2::className(), [
+		if(Yii::$app->user->identity->user_role == 'SUPER_ADMIN') {
+			echo $form->field($model, 'park_customer_id')->widget(Select2::className(), [
 					'initValueText' => '', // set the initial display text
-					'options' => ['id' => 'company_id', 'placeholder' => 'Search for a company ...'],
+					'options' => ['id' => 'park_customer_id', 'placeholder' => 'Search for customer...'],
 					'pluginOptions' => [
 							'allowClear' => true,
 							'minimumInputLength' => 3,
@@ -55,24 +54,24 @@ $form = ActiveForm::begin([
 					],
 			]);
 		} else {
-			echo $form->field($model, 'company')->hiddenInput([
-					'id' => 'company_id',
-					'value' => Yii::$app->user->identity->company_id
+			echo $form->field($model, 'park_customer_id')->hiddenInput([
+					'id' => 'customer_id',
+					'value' => Yii::$app->user->identity->user_customer_id
 			])->label(false);
 		}
-		echo $form->field($model, 'employee_code')->widget(DepDrop::className(), [
-				'options'=> ['id'=>'employee_Id'],
+		echo $form->field($model, 'park_employee_code')->widget(DepDrop::className(), [
+				'options'=> ['id'=>'park_employee_code'],
 				'pluginOptions'=>[
-						'initialize'=> true,
-						'depends'=>['company_id'],
+						'initialize'=> false,
+						'depends'=>['park_customer_id'],
 						'placeholder'=>' -- Select employee -- ',
 						'url'=> Url::to(['tags/get-employees']),
-						'params' => ['company_id']
+						'params' => ['park_customer_id']
 				]
 		]);
-		echo $form->field($model, 'car_model');
-		echo $form->field($model, 'car_regno');
-		echo $form->field($model, 'tagstatus')->dropDownList([
+		echo $form->field($model, 'park_car_model');
+		echo $form->field($model, 'park_car_regno');
+		echo $form->field($model, 'park_tagstatus')->dropDownList([
 				1 => 'Active',
 				0 => 'Inactive'
 		]);
@@ -96,7 +95,7 @@ $form = ActiveForm::begin([
 </div>
 <?php
 $js = <<<JS
-$('#company_id').trigger('depdrop:change');
+$('#park_customer_id').trigger('depdrop:change');
 JS;
 $this->registerJs($js);
 $this->registerJsFile(Yii::$app->homeUrl . 'js/ajax-modal-popup.js', ['depends' => 'yii\web\jQueryAsset']);

@@ -11,14 +11,14 @@ use yii\db\Query;
 
 class TagsController extends \yii\web\Controller
 {
-    public function actionAssign($tagid, $unassign = false) {
-    	$model = $this->findModel($tagid);
+    public function actionAssign($park_tagid, $unassign = false) {
+    	$model = $this->findModel($park_tagid);
     	if($unassign) {
-    		$model->company = 0;
-    		$model->employee_code = 0;
-    		$model->car_model = '';
-    		$model->car_regno = '';
-    		$model->tagstatus = 0;
+    		$model->park_customer_id = null;
+    		$model->park_employee_code = null;
+    		$model->park_car_model = '';
+    		$model->park_car_regno = '';
+    		$model->park_tagstatus = 0;
     		
     		if($model->save()) {
     			
@@ -48,8 +48,8 @@ class TagsController extends \yii\web\Controller
     		\Yii::$app->response->format = Response::FORMAT_JSON;
     		$rsTags = ParkingLot::find()
     		->with(['user', 'customer']);
-    		if(! \Yii::$app->user->identity->role == 'SUPER_ADMIN') {
-    			$rsTags->where('customer_id =' . \Yii::$app->user->identity->customer_id);
+    		if(! \Yii::$app->user->identity->user_role == 'SUPER_ADMIN') {
+    			$rsTags->where('park_customer_id =' . \Yii::$app->user->identity->customer_id);
     		}
     		$tags = $rsTags->asArray()->all();
     		return [
@@ -84,8 +84,8 @@ class TagsController extends \yii\web\Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($tagid) {
-    	$model = $this->findModel($tagid);
+    public function actionUpdate($user_id) {
+    	$model = $this->findModel($user_id);
     	
     	if ($model->load(\Yii::$app->request->post()) && $model->save()) {
     		\Yii::$app->session->setFlash('success', 'Slot updated successfully');
@@ -104,9 +104,9 @@ class TagsController extends \yii\web\Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($tagid)
+    public function actionDelete($park_tagid)
     {
-    	$this->findModel($tagid)->delete();
+    	$this->findModel($park_tagid)->delete();
     	\Yii::$app->session->setFlash('success', 'Slot deleted successfully');
     	
     	return $this->redirect(['index']);
@@ -124,9 +124,9 @@ class TagsController extends \yii\web\Controller
     	if (\Yii::$app->request->isPost) {
     		$parent =  $_POST['depdrop_parents'][0];
     		$query = new Query();
-    		$query->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS name"))
+    		$query->select(new Expression("user_id, CONCAT_WS(' ', user_firstName, user_lastName) AS name"))
     		->from(User::tableName())
-    		->where('company_id=' . $parent);
+    		->where('user_customer_id=' . $parent);
     		//}
     		$command = $query->createCommand();
     		$data = $command->queryAll();
@@ -145,9 +145,9 @@ class TagsController extends \yii\web\Controller
      * @return ParkingLot the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($user_id)
     {
-    	if (($model = ParkingLot::findOne($id)) !== null) {
+    	if (($model = ParkingLot::findOne($user_id)) !== null) {
     		return $model;
     	} 
     	

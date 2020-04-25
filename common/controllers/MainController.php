@@ -36,10 +36,10 @@ class MainController extends Controller
                             return true;
                         }
                         if ($module == 'app-backend') {
-                            if (\Yii::$app->user->identity->role == 'SUPER_ADMIN') {
+                            if (\Yii::$app->user->identity->user_role == 'SUPER_ADMIN') {
                                 return true;
                             }
-                            if (\Yii::$app->user->identity->role != 'SUPER_ADMIN' && "$controller/$action" == 'site/index') {
+                            if (\Yii::$app->user->identity->yser_role != 'SUPER_ADMIN' && "$controller/$action" == 'site/index') {
                                 return true;
                             }
                             return false;

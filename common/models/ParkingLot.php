@@ -31,7 +31,7 @@ class ParkingLot extends \yii\db\ActiveRecord {
 			[
 				'class' => TimestampBehavior::className(),
 				'attributes' => [
-					ActiveRecord::EVENT_BEFORE_INSERT => ['created_on'],
+					ActiveRecord::EVENT_BEFORE_INSERT => ['park_created_on'],
 					ActiveRecord::EVENT_BEFORE_UPDATE => null,
 				],
 				// if you're using datetime instead of UNIX timestamp:
@@ -53,14 +53,15 @@ class ParkingLot extends \yii\db\ActiveRecord {
     public function rules()
     {
         return [
-            [['car_model', 'car_regno', 'tagstatus', 'employee_code', 'customer_id'], 'required', 'on' => self::SCENARIO_ASSIGN],
-        	[['tagid', 'tagstatus', 'employee_code'], 'integer'],
-            [['doissue'], 'safe'],
-        	[['tagid'], 'required'],
+            [['park_car_model', 'park_car_regno', 'park_tagstatus', 'park_employee_code', 'park_customer_id'], 'required', 'on' => self::SCENARIO_ASSIGN],
+        	[['park_tagid', 'park_tagstatus', 'park_employee_code'], 'integer'],
+            [['park_doissue'], 'safe'],
+        	[['park_tagid'], 'required'],
+            [['park_tagid'], 'unique'],
         	
-            [['car_model'], 'string', 'max' => 50],
-            [['employee_code'], 'required', 'on' => self::SCENARIO_ASSIGN],
-            [['car_regno'], 'string', 'max' => 12],
+            [['park_car_model'], 'string', 'max' => 50],
+            [['park_employee_code'], 'required', 'on' => self::SCENARIO_ASSIGN],
+            [['park_car_regno'], 'string', 'max' => 12],
         ];
     }
 
@@ -70,23 +71,23 @@ class ParkingLot extends \yii\db\ActiveRecord {
     public function attributeLabels()
     {
         return [
-            'tagid' => Yii::t('app', 'Slot ID'),
-            'employee_code' => Yii::t('app', 'Employee'),
-            'customer_id' => Yii::t('app', 'Customer'),
-            'car_model' => Yii::t('app', 'Vehicle Model'),
-            'car_regno' => Yii::t('app', 'Vehicle Registration'),
-            'tagstatus' => Yii::t('app', 'Tag Status'),
-            'doissue' => Yii::t('app', 'Date of issue'),
+            'park_tagid' => Yii::t('app', 'Slot ID'),
+            'park_employee_code' => Yii::t('app', 'Employee'),
+            'park_customer_id' => Yii::t('app', 'Customer'),
+            'park_car_model' => Yii::t('app', 'Vehicle Model'),
+            'park_car_regno' => Yii::t('app', 'Vehicle Registration'),
+            'park_tagstatus' => Yii::t('app', 'Tag Status'),
+            'park_doissue' => Yii::t('app', 'Date of issue'),
         ];
     }
     
     public function getUser() {
-    	return $this->hasOne(User::className(), ['id' => 'employee_code'])
-    	->select(new Expression("id, CONCAT_WS(' ', firstName, lastName) AS names"));
+    	return $this->hasOne(User::className(), ['user_id' => 'park_employee_code'])
+    	->select(new Expression("user_id, CONCAT_WS(' ', user_firstName, user_lastName) AS names"));
     }
     
     public function getCustomer() {
-    	return $this->hasOne(Customer::className(), ['cid' => 'customer_id'])->select('cid, name');
+    	return $this->hasOne(Customer::className(), ['customer_id' => 'park_customer_id'])->select('customer_id, customer_name');
     }
     
 

@@ -38,14 +38,14 @@ class User extends ActiveRecord implements IdentityInterface {
 
 	public function rules() {
 		$rules = parent::rules();
-		$rules['role_default'] = ['role', 'default', 'value' => 'USER'];
-		$rules['new_required'] = [['phone_number', 'firstName', 'lastName', 'email', 'role'], 'required'];
-		$rules['phone_number_length'] = ['phone_number', 'string', 'length' => 10];
-		$rules['phone_number_int'] = ['phone_number', 'match', 'pattern' => '/[0-9]{2}\d{8}/',
+		$rules['role_default'] = ['user_role', 'default', 'value' => 'USER'];
+		$rules['new_required'] = [['user_phone_number', 'user_firstName', 'user_lastName', 'user_email', 'role'], 'required'];
+		$rules['phone_number_length'] = ['user_phone_number', 'string', 'length' => 10];
+		$rules['phone_number_int'] = ['user_phone_number', 'match', 'pattern' => '/[0-9]{2}\d{8}/',
 			'message' => 'Phone number should contain letters only'];
-		$rules['phone_number_unique'] = ['phone_number', 'unique'];
+		$rules['phone_number_unique'] = ['user_phone_number', 'unique'];
 
-		$rules['customer_id_required'] = ['customer_id', 'required', 'when' => function ($model) {
+		$rules['customer_id_required'] = ['user_customer_id', 'required', 'when' => function ($model) {
 			return !\Yii::$app->user->can('SUPER_ADMIN');
 		}, 'whenClient' => "function (attribute, value) {
 
@@ -65,17 +65,17 @@ class User extends ActiveRecord implements IdentityInterface {
 	}
 
 	public static function findByPhoneNumber($phoneNumber) {
-		$condition = ['phone_number' => $phoneNumber];
+		$condition = ['user_phone_number' => $phoneNumber];
 		return static::findOne($condition);
 	}
 
 	public function getCustomer() {
-		return $this->hasOne(Customer::className(), ['cid' => 'company_id'])->select('cid, name');
+		return $this->hasOne(Customer::className(), ['customer_id' => 'user_customer_id'])->select('customer_id, customer_name');
 	}
 
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['user_id' => $id, 'user_status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -94,7 +94,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['user_username' => $username, 'user_status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -110,8 +110,8 @@ class User extends ActiveRecord implements IdentityInterface {
         }
 
         return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'user_password_reset_token' => $token,
+            'user_status' => self::STATUS_ACTIVE,
         ]);
     }
 
@@ -145,7 +145,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function getAuthKey()
     {
-        return $this->auth_key;
+        return $this->user_auth_key;
     }
 
     /**
@@ -164,7 +164,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->user_password_hash);
     }
 
     /**
@@ -174,7 +174,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->user_password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -182,7 +182,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->user_auth_key = Yii::$app->security->generateRandomString();
     }
 
     /**
@@ -190,7 +190,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->user_password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
@@ -198,7 +198,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function removePasswordResetToken()
     {
-        $this->password_reset_token = null;
+        $this->user_password_reset_token = null;
     }
 
 

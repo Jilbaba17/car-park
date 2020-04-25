@@ -4,7 +4,6 @@ use yii\bootstrap\Html;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
 use common\models\Block;
-use common\models\CityMaster;
 use yii\web\JsExpression;
 
 /**
@@ -43,48 +42,12 @@ $form = ActiveForm::begin([
 		
 		<div class="box-body">
 		<?php 
-		$buildingDesc = empty($model->bldg_code) ? '' : Block::findOne($model->bldg_code)->name;
+		$buildingDesc = empty($model->customer_bldg_code) ? '' : Block::findOne($model->customer_bldg_code)->Block_name;
 
-		echo $form->field($model, 'name');
-		echo $form->field($model, 'bldg_code')->widget(Select2::className(), [
-			'initValueText' => $buildingDesc, // set the initial display text
-			'options' => ['placeholder' => 'Search for a building ...'],
-			'pluginOptions' => [
-				'allowClear' => true,
-				'minimumInputLength' => 3,
-				'language' => [
-					'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
-				],
-				'ajax' => [
-					'url' => Url::to(['building/get-buildings']),
-					'dataType' => 'json',
-					'data' => new JsExpression('function(params) { return {q:params.term}; }')
-				],
-				'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-				'templateResult' => new JsExpression('function(city) { return city.text; }'),
-				'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-			],
-		]);
-//		echo $form->field($model, 'city_code')->widget(Select2::className(), [
-//			'initValueText' => $cityDesc, // set the initial display text
-//			'options' => ['placeholder' => 'Search for a city ...'],
-//			'pluginOptions' => [
-//				'allowClear' => true,
-//				'minimumInputLength' => 3,
-//				'language' => [
-//					'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
-//				],
-//				'ajax' => [
-//					'url' => Url::to(['city/get-cities']),
-//					'dataType' => 'json',
-//					'data' => new JsExpression('function(params) { return {q:params.term}; }')
-//				],
-//				'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-//				'templateResult' => new JsExpression('function(city) { return city.text; }'),
-//				'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-//			],
-//		]);
-		echo $form->field($model, 'noslots');
+		echo $form->field($model, 'customer_name');
+		echo $form->field($model, 'customer_bldg_code')->dropDownList(Block::getBlocks());
+//		
+		echo $form->field($model, 'customer_noslots');
 		
 		?>
 		</div>

@@ -31,7 +31,7 @@ $this->title = 'Dashboard';
 	echo Html::beginTag('div', ['class' => 'box-body']);
 	echo Html::beginTag('div', ['class' => 'col-md-4']);
 	
-	echo $form->field($model, 'tagid', [
+	echo $form->field($model, 'park_tagid', [
 		'inputOptions' => [
 				'class' => 'form-control',
 				'autofocus' => true,
@@ -57,13 +57,13 @@ $this->title = 'Dashboard';
 	<div class="box box-success">
 	<?php 
 	$count = 1;
-	foreach ($companyMap as $cid => $name) {
+	foreach ($companyMap as $customer_id => $customer_name) {
 		$bg = 'bg-blue';
 		if(($count % 2) == 0) {
 			$bg = 'bg-red';
 		}
 		?>
-		<div class="col-md-6 col-sm-12 col-xs-12 company<?= $cid ?>">
+		<div class="col-md-6 col-sm-12 col-xs-12 company<?= $customer_id ?>">
            <div class="info-box <?= $bg ?>">
             <span class="info-box-icon"><?= Icon::show('car') ?></span>
 
