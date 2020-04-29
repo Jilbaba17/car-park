@@ -11,9 +11,9 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class LoginForm extends Model
+class AdminLoginForm extends Model
 {
-    public $login_code;
+    public $admin_loginid;
     public $rememberMe = true;
 
     private $_user = false;
@@ -25,12 +25,22 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            //  login_code is required
-            [['login_code'],'required'],
+            //  admin_loginid is required
+            [['admin_loginid'],'required'],
             // login_code is validated by validatePassword()
             // rememberMe must be a boolean value
             ['rememberMe','boolean'],
-            ['login_code','validatePassword']
+            ['admin_loginid','validatePassword']
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'admin_loginid' => 'Admin Login',
         ];
     }
 
@@ -46,8 +56,8 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validateLoginCode($this->login_code)){
-                $this->addError($attribute, 'Incorrect login code.');
+            if (!$user || !$user->validateAdminLogin($this->admin_loginid)){
+                $this->addError($attribute, 'Incorrect admin login ID.');
             }
         }
     }
@@ -67,12 +77,13 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return Login|null
+     * @return Administrator|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Login::findByLoginCode($this->login_code);
+            $this->_user = Administrator::findByAdminLoginId($this->admin_loginid);
+            Yii::$app->session['isAdmin'] = true;
         }
 
         return $this->_user;

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AdminLoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,10 +21,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'index'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,6 +72,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -80,8 +82,28 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $model->password = '';
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+    /**
+     * Admin Login action.
+     *
+     * @return Response|string
+     */
+    public function actionAdminLogin()
+    {
+        $this->layout = 'login';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new AdminLoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goHome();
+        }
+
+        return $this->render('admin-login', [
             'model' => $model,
         ]);
     }

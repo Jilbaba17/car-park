@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
@@ -39,15 +40,19 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Operations', 'url' => '#', 'items' => [
+                ['label' => 'Manage Floors', 'url' => ['/floors/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Blocks', 'url' => ['/blocks/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Parking Lots', 'url' => ['/parkinglots/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+            ]
+            ],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

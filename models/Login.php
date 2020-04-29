@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "login".
@@ -11,8 +12,11 @@ use Yii;
  * @property int $login_code
  * @property string $login_rank
  */
-class Login extends \yii\db\ActiveRecord
+class Login extends \yii\db\ActiveRecord implements IdentityInterface
 {
+
+    public $role = 'USER';
+
     /**
      * {@inheritdoc}
      */
@@ -27,9 +31,11 @@ class Login extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['login_id', 'login_code', 'login_rank'], 'required'],
-            [['login_id', 'login_code'], 'integer'],
+            [['login_code', 'login_rank'], 'required'],
+            [['login_code'], 'integer'],
+            [['login_code'], 'unique'],
             [['login_rank'], 'string', 'max' => 100],
+            [['role'], 'safe'],
         ];
     }
 
@@ -44,4 +50,90 @@ class Login extends \yii\db\ActiveRecord
             'login_rank' => 'Login Rank',
         ];
     }
+
+    public static function findIdentity($id)
+    {
+        if(Yii::$app->session['isAdmin']) {
+
+            return Administrator::findIdentity($id);
+        }
+        return static::findOne(['login_id' => $id]);
+        // return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return null;
+    }
+
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+
+        return null;
+    }
+    public static function findByLoginCode($loginCode)
+    {
+        $user = Login::find()->where('login_code=:code', [':code' => $loginCode])->one();
+        if ($user) {
+            return new static($user);
+        }
+
+        return null;
+
+    }
+    public static function findByAdminLoginId($adminLoginId)
+    {
+        $user = Administrator::find()->where('admin_loginid=:hash', [':hash' => $adminLoginId]);
+        if ($user) {
+            return new static($user);
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->login_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+        return null;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+        return null;
+    }
+
+    /**
+     * Validates login code
+     *
+     * @param string $loginCode password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validateLoginCode($loginCode)
+    {
+        return $this->login_code === (int) $loginCode;
+    }
+
+
 }

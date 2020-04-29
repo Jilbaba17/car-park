@@ -13,8 +13,11 @@ use Yii;
  * @property int $admin_name
  * @property string $admin_emailaddress
  */
-class Administrator extends \yii\db\ActiveRecord
+class Administrator extends Login
 {
+
+    public $role = 'ADMIN';
+
     /**
      * {@inheritdoc}
      */
@@ -29,10 +32,10 @@ class Administrator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['admin_id', 'admin_loginid', 'admin_contact', 'admin_name', 'admin_emailaddress'], 'required'],
-            [['admin_id', 'admin_loginid', 'admin_contact', 'admin_name'], 'integer'],
-            [['admin_emailaddress'], 'string', 'max' => 100],
-            [['admin_id'], 'unique'],
+            [['admin_loginid', 'admin_contact', 'admin_name', 'admin_emailaddress'], 'required'],
+            [['admin_loginid', 'admin_contact'], 'integer'],
+            [['admin_emailaddress'], 'email'],
+            [['admin_emailaddress', 'admin_name'], 'string', 'max' => 100],
         ];
     }
 
@@ -43,10 +46,81 @@ class Administrator extends \yii\db\ActiveRecord
     {
         return [
             'admin_id' => 'Admin ID',
-            'admin_loginid' => 'Admin Loginid',
+            'admin_loginid' => 'Admin Login',
             'admin_contact' => 'Admin Contact',
             'admin_name' => 'Admin Name',
-            'admin_emailaddress' => 'Admin Emailaddress',
+            'admin_emailaddress' => 'Admin Email Address',
         ];
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne(['admin_id' => $id]);
+        // return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return null;
+    }
+
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+
+        return null;
+    }
+
+    public static function findByAdminLoginId($adminLoginId)
+    {
+        $user = Administrator::find()->where('admin_loginid=:hash', [':hash' => $adminLoginId])->one();
+        if ($user) {
+            return new static($user);
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->admin_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+        return null;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+        return null;
+    }
+
+    /**
+     * Validates login code
+     *
+     * @param string $adminLoginId password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validateAdminLogin($adminLoginId)
+    {
+        return $this->admin_loginid === (int) $adminLoginId;
     }
 }

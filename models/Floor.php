@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $floor_id
  * @property int $floor_number
- * @property int $floor_maxheight
+ * @property string $floor_maxheight
  * @property int $floor_numberofblocks
  */
 class Floor extends \yii\db\ActiveRecord
@@ -28,9 +28,9 @@ class Floor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['floor_id', 'floor_number', 'floor_maxheight', 'floor_numberofblocks'], 'required'],
-            [['floor_id', 'floor_number', 'floor_maxheight', 'floor_numberofblocks'], 'integer'],
-            [['floor_id'], 'unique'],
+            [['floor_number', 'floor_maxheight', 'floor_numberofblocks'], 'required'],
+            [['floor_number', 'floor_numberofblocks'], 'integer'],
+            [['floor_maxheight'], 'string', 'max' => 11],
         ];
     }
 
