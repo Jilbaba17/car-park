@@ -41,9 +41,11 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Operations', 'url' => '#', 'items' => [
-                ['label' => 'Manage Floors', 'url' => ['/floors/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Blocks', 'url' => ['/blocks/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Parking Lots', 'url' => ['/parkinglots/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Floors', 'url' => ['/floor/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Blocks', 'url' => ['/block/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Parking Lots', 'url' => ['/parkinglot/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Customers', 'url' => ['/customer/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Users', 'url' => ['/login/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
             ]
             ],
             Yii::$app->user->isGuest ? (
