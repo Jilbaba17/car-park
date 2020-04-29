@@ -48,6 +48,7 @@ AppAsset::register($this);
                 ['label' => 'Manage Users', 'url' => ['/login/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
             ]
             ],
+            ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

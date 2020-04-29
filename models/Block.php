@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "block".
  *
  * @property int $block_id
- * @property string $block_floorid
+ * @property int $block_floorid
  * @property string $block_code
  * @property int $block_capacity
  */
@@ -29,8 +29,8 @@ class Block extends \yii\db\ActiveRecord
     {
         return [
             [['block_floorid', 'block_code', 'block_capacity'], 'required'],
-            [['block_capacity'], 'integer'],
-            [['block_floorid', 'block_code'], 'string', 'max' => 11],
+            [['block_floorid', 'block_capacity'], 'integer'],
+            [['block_code'], 'string', 'max' => 11],
             [['block_floorid'], 'unique'],
         ];
     }
