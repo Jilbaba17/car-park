@@ -67,7 +67,7 @@ class ParkingLotController extends Controller
         $model = new ParkingLot();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tagid]);
+            return $this->redirect(['view', 'id' => $model->park_id]);
         }
 
         return $this->render('create', [
@@ -87,7 +87,7 @@ class ParkingLotController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->tagid]);
+            return $this->redirect(['view', 'id' => $model->park_id]);
         }
 
         return $this->render('update', [

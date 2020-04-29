@@ -7,13 +7,11 @@ use Yii;
 /**
  * This is the model class for table "customer".
  *
- * @property int $cid
- * @property int $bldg_code
- * @property string $name
- * @property int $noslots
- *
- * @property Block $bldgCode
- * @property ParkingLot[] $parkingLots
+ * @property int $customer_id
+ * @property int $customer_contact
+ * @property string $customer_regularornew
+ * @property string $customer_registrationdate
+ * @property int $customer_loginid
  */
 class Customer extends \yii\db\ActiveRecord
 {
@@ -31,10 +29,10 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bldg_code', 'name', 'noslots'], 'required'],
-            [['bldg_code', 'noslots'], 'integer'],
-            [['name'], 'string', 'max' => 50],
-            [['bldg_code'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['bldg_code' => 'id']],
+            [['customer_contact', 'customer_regularornew', 'customer_registrationdate', 'customer_loginid'], 'required'],
+            [['customer_contact', 'customer_loginid'], 'integer'],
+            [['customer_registrationdate'], 'safe'],
+            [['customer_regularornew'], 'string', 'max' => 11],
         ];
     }
 
@@ -44,30 +42,11 @@ class Customer extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'cid' => 'Cid',
-            'bldg_code' => 'Bldg Code',
-            'name' => 'Name',
-            'noslots' => 'Noslots',
+            'customer_id' => 'Customer ID',
+            'customer_contact' => 'Customer Contact',
+            'customer_regularornew' => 'Customer Regularornew',
+            'customer_registrationdate' => 'Customer Registrationdate',
+            'customer_loginid' => 'Customer Loginid',
         ];
-    }
-
-    /**
-     * Gets query for [[BldgCode]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBldgCode()
-    {
-        return $this->hasOne(Block::className(), ['id' => 'bldg_code']);
-    }
-
-    /**
-     * Gets query for [[ParkingLots]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getParkingLots()
-    {
-        return $this->hasMany(ParkingLot::className(), ['customer_id' => 'cid']);
     }
 }

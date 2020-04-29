@@ -23,14 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tagid',
-            'employee_code',
-            'customer_id',
-            'car_model',
-            'car_regno',
-            //'tagstatus',
-            //'created_on',
-            //'doissue',
+            'park_id',
+            'park_code',
+            'park_blockid',
+            'park_valetparking',
+            'park_slotnumberfrom',
+            //'park_slotnumberto',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

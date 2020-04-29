@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\ParkingLot */
 
-$this->title = $model->tagid;
+$this->title = $model->park_id;
 $this->params['breadcrumbs'][] = ['label' => 'Parking Lots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->tagid], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->tagid], [
+        <?= Html::a('Update', ['update', 'id' => $model->park_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->park_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,14 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'tagid',
-            'employee_code',
-            'customer_id',
-            'car_model',
-            'car_regno',
-            'tagstatus',
-            'created_on',
-            'doissue',
+            'park_id',
+            'park_code',
+            'park_blockid',
+            'park_valetparking',
+            'park_slotnumberfrom',
+            'park_slotnumberto',
         ],
     ]) ?>
 
