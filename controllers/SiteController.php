@@ -86,7 +86,7 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    
+
 
     /**
      * Logout action.
