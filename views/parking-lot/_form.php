@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\ParkingLot */
 /* @var $form yii\widgets\ActiveForm */
 $blocks = \yii\helpers\ArrayHelper::map(\app\models\Block::find()
-    ->select('block_id', 'block_code')->asArray()->all(), 'block_id', 'block_code');
+    ->select('block_id, block_code')->asArray()->all(), 'block_id', 'block_code');
 ?>
 
 <div class="parking-lot-form">

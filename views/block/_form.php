@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 
 $floors = \yii\helpers\ArrayHelper::map(\app\models\Floor::find()
-    ->select('floor_id', 'floor_number')->asArray()->all(), 'floor_id', 'floor_number');
+    ->select('floor_id, floor_number')->asArray()->all(), 'floor_id', 'floor_number');
 ?>
 
 <div class="block-form">

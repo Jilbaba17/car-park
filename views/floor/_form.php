@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'floor_id')->textInput() ?>
-
     <?= $form->field($model, 'floor_number')->textInput() ?>
 
     <?= $form->field($model, 'floor_maxheight')->textInput() ?>
