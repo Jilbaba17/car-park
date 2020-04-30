@@ -26,7 +26,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
+<?php // var_dump(Yii::$app->user->identity->login_rank == 'ADMIN'); die; ?>
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -40,13 +40,13 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Operations', 'url' => '#', 'items' => [
-                ['label' => 'Manage Floors', 'url' => ['/floor/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
-                ['label' => 'Manage Blocks', 'url' => ['/block/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
-                ['label' => 'Manage Parking Lots', 'url' => ['/parking-lot/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
-                ['label' => 'Manage Customers', 'url' => ['/customer/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
-                ['label' => 'Manage Administrators', 'url' => ['/administrator/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
-                ['label' => 'Manage Users', 'url' => ['/login/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+            ['label' => 'Operations', 'url' => '#', 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN', 'items' => [
+                ['label' => 'Manage Floors', 'url' => ['/floor/index']],
+                ['label' => 'Manage Blocks', 'url' => ['/block/index']],
+                ['label' => 'Manage Parking Lots', 'url' => ['/parking-lot/index']],
+                ['label' => 'Manage Customers', 'url' => ['/customer/index']],
+                ['label' => 'Manage Administrators', 'url' => ['/administrator/index']],
+                ['label' => 'Manage Users', 'url' => ['/login/index']],
             ]
             ],
             ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
