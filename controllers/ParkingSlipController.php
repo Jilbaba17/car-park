@@ -5,29 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\ParkingSlip;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ParkingSlipController implements the CRUD actions for ParkingSlip model.
  */
-class ParkingSlipController extends Controller
+class ParkingSlipController extends BaseAdminController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all ParkingSlip models.

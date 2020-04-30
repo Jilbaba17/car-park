@@ -5,29 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Administrator;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * AdministratorController implements the CRUD actions for Administrator model.
  */
-class AdministratorController extends Controller
+class AdministratorController extends BaseAdminController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Administrator models.

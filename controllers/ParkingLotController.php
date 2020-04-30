@@ -5,29 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\ParkingLot;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ParkingLotController implements the CRUD actions for ParkingLot model.
  */
-class ParkingLotController extends Controller
+class ParkingLotController extends BaseAdminController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all ParkingLot models.

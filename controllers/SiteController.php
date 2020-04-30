@@ -86,28 +86,7 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    /**
-     * Admin Login action.
-     *
-     * @return Response|string
-     */
-    public function actionAdminLogin()
-    {
-        $this->layout = 'login';
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new AdminLoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $model->setRole();
-            return $this->goHome();
-        }
-
-        return $this->render('admin-login', [
-            'model' => $model,
-        ]);
-    }
+    
 
     /**
      * Logout action.
