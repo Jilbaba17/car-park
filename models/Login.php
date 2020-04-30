@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -14,8 +15,12 @@ use yii\web\IdentityInterface;
  */
 class Login extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    const ROLES = [
+        'USER' => 'USER',
+        'ADMIN' => 'ADMIN'
+    ];
 
-    public $role = 'USER';
+    public $role;
 
     /**
      * {@inheritdoc}
@@ -51,14 +56,31 @@ class Login extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function getAdmin() {
+        return $this->hasOne(Administrator::className(), ['admin_loginid' => 'login_id']);
+    }
+    public function getCustomer() {
+        return $this->hasOne(Customer::className(), ['customer_loginid' => 'login_id']);
+    }
+
+    public static function getAdminLoginIds() {
+        return ArrayHelper::map(self::find()
+            ->select('login_id, login_code')
+            ->where("login_rank='ADMIN'")
+            ->asArray()->all(), 'login_id', 'login_code');
+    }
+    public static function getCustomerLoginIds() {
+        return ArrayHelper::map(self::find()
+            ->select('login_id, login_code')
+            ->where("login_rank='USER'")
+            ->asArray()->all(), 'login_id', 'login_code');
+    }
+
+
+
     public static function findIdentity($id)
     {
-        if(Yii::$app->session['isAdmin']) {
-
-            return Administrator::findIdentity($id);
-        }
         return static::findOne(['login_id' => $id]);
-        // return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
     /**
@@ -85,6 +107,7 @@ class Login extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $user = Login::find()->where('login_code=:code', [':code' => $loginCode])->one();
         if ($user) {
+            if($user)
             return new static($user);
         }
 

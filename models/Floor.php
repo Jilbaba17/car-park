@@ -11,6 +11,8 @@ use Yii;
  * @property int $floor_number
  * @property string $floor_maxheight
  * @property int $floor_numberofblocks
+ *
+ * @property Block $block
  */
 class Floor extends \yii\db\ActiveRecord
 {
@@ -45,5 +47,15 @@ class Floor extends \yii\db\ActiveRecord
             'floor_maxheight' => 'Floor Maxheight',
             'floor_numberofblocks' => 'Floor Numberofblocks',
         ];
+    }
+
+    /**
+     * Gets query for [[Block]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBlock()
+    {
+        return $this->hasOne(Block::className(), ['block_floorid' => 'floor_id']);
     }
 }

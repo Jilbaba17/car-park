@@ -100,6 +100,7 @@ class SiteController extends Controller
 
         $model = new AdminLoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $model->setRole();
             return $this->goHome();
         }
 

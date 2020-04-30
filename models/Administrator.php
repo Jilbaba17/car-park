@@ -10,14 +10,14 @@ use Yii;
  * @property int $admin_id
  * @property int $admin_loginid
  * @property int $admin_contact
- * @property int $admin_name
+ * @property string $admin_name
  * @property string $admin_emailaddress
+ *
+ * @property Login $adminLogin
+ * @property Login $adminLogin0
  */
-class Administrator extends Login
+class Administrator extends \yii\db\ActiveRecord
 {
-
-    public $role = 'ADMIN';
-
     /**
      * {@inheritdoc}
      */
@@ -34,8 +34,11 @@ class Administrator extends Login
         return [
             [['admin_loginid', 'admin_contact', 'admin_name', 'admin_emailaddress'], 'required'],
             [['admin_loginid', 'admin_contact'], 'integer'],
-            [['admin_emailaddress'], 'email'],
-            [['admin_emailaddress', 'admin_name'], 'string', 'max' => 100],
+            [['admin_name'], 'string', 'max' => 11],
+            [['admin_emailaddress'], 'string', 'max' => 100],
+            [['admin_loginid'], 'unique'],
+            [['admin_loginid'], 'exist', 'skipOnError' => true, 'targetClass' => Login::className(), 'targetAttribute' => ['admin_loginid' => 'login_id']],
+            [['admin_loginid'], 'exist', 'skipOnError' => true, 'targetClass' => Login::className(), 'targetAttribute' => ['admin_loginid' => 'login_id']],
         ];
     }
 
@@ -46,81 +49,30 @@ class Administrator extends Login
     {
         return [
             'admin_id' => 'Admin ID',
-            'admin_loginid' => 'Admin Login',
+            'admin_loginid' => 'Admin Loginid',
             'admin_contact' => 'Admin Contact',
             'admin_name' => 'Admin Name',
-            'admin_emailaddress' => 'Admin Email Address',
+            'admin_emailaddress' => 'Admin Emailaddress',
         ];
     }
 
-    public static function findIdentity($id)
-    {
-        return static::findOne(['admin_id' => $id]);
-        // return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
-    }
-
     /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        return null;
-    }
-
-
-    /**
-     * Finds user by username
+     * Gets query for [[AdminLogin]].
      *
-     * @param string $username
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByUsername($username)
+    public function getAdminLogin()
     {
-
-        return null;
-    }
-
-    public static function findByAdminLoginId($adminLoginId)
-    {
-        $user = Administrator::find()->where('admin_loginid=:hash', [':hash' => $adminLoginId])->one();
-        if ($user) {
-            return new static($user);
-        }
-
-        return null;
+        return $this->hasOne(Login::className(), ['login_id' => 'admin_loginid']);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->admin_id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return null;
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return null;
-    }
-
-    /**
-     * Validates login code
+     * Gets query for [[AdminLogin0]].
      *
-     * @param string $adminLoginId password to validate
-     * @return bool if password provided is valid for current user
+     * @return \yii\db\ActiveQuery
      */
-    public function validateAdminLogin($adminLoginId)
+    public function getAdminLogin0()
     {
-        return $this->admin_loginid === (int) $adminLoginId;
+        return $this->hasOne(Login::className(), ['login_id' => 'admin_loginid']);
     }
 }

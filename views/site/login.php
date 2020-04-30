@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-group">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
         </div>
-        <?= Html::a('Administrator Login', \yii\helpers\Url::to(['site/admin-login'])) ?>
     <?php ActiveForm::end(); ?>
 
 </div>

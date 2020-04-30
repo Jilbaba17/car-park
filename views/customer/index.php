@@ -25,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'customer_id',
             'customer_contact',
-            'customer_regularornew',
+            [
+                'label' => 'Custormer Type',
+                'value' => function ($model) {
+                    return \app\models\Customer::CUSTOMER_TYPE[$model->customer_regularornew];
+
+                }
+
+            ],
             'customer_registrationdate',
             'customer_loginid',
 

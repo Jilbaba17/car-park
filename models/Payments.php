@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "payments".
  *
- * @property int $Payment_id
- * @property string $Payment_mode
- * @property string $Payment_reference
- * @property int|null $Payment_Parking slip id
- * @property int $Payment_amount
+ * @property int $payment_id
+ * @property string $payment_mode
+ * @property string $payment_reference
+ * @property int $payment_parking_slip_id
+ * @property int $payment_amount
  *
- * @property ParkingSlip $paymentParkingSlip
+ * @property Parkingslip $paymentParkingSlip
  */
 class Payments extends \yii\db\ActiveRecord
 {
@@ -31,11 +31,11 @@ class Payments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Payment_id', 'Payment_mode', 'Payment_reference', 'Payment_amount'], 'required'],
-            [['Payment_id', 'Payment_Parking slip id', 'Payment_amount'], 'integer'],
-            [['Payment_mode', 'Payment_reference'], 'string', 'max' => 100],
-            [['Payment_id'], 'unique'],
-            [['Payment_Parking slip id'], 'exist', 'skipOnError' => true, 'targetClass' => ParkingSlip::className(), 'targetAttribute' => ['Payment_Parking slip id' => 'id']],
+            [['payment_mode', 'payment_reference', 'payment_parking_slip_id', 'payment_amount'], 'required'],
+            [['payment_parking_slip_id', 'payment_amount'], 'integer'],
+            [['payment_mode', 'payment_reference'], 'string', 'max' => 11],
+            [['payment_parking_slip_id'], 'unique'],
+            [['payment_parking_slip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parkingslip::className(), 'targetAttribute' => ['payment_parking_slip_id' => 'parking_slip_id']],
         ];
     }
 
@@ -45,11 +45,11 @@ class Payments extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Payment_id' => 'Payment ID',
-            'Payment_mode' => 'Payment Mode',
-            'Payment_reference' => 'Payment Reference',
-            'Payment_Parking slip id' => 'Payment Parking Slip ID',
-            'Payment_amount' => 'Payment Amount',
+            'payment_id' => 'Payment ID',
+            'payment_mode' => 'Payment Mode',
+            'payment_reference' => 'Payment Reference',
+            'payment_parking_slip_id' => 'Payment Parking Slip ID',
+            'payment_amount' => 'Payment Amount',
         ];
     }
 
@@ -60,6 +60,6 @@ class Payments extends \yii\db\ActiveRecord
      */
     public function getPaymentParkingSlip()
     {
-        return $this->hasOne(ParkingSlip::className(), ['id' => 'Payment_Parking slip id']);
+        return $this->hasOne(Parkingslip::className(), ['parking_slip_id' => 'payment_parking_slip_id']);
     }
 }

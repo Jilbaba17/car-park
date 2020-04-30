@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'login_code')->textInput() ?>
 
-    <?= $form->field($model, 'login_rank')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'login_rank')->dropDownList(\app\models\Login::ROLES) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

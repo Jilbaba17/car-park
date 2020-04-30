@@ -26,11 +26,11 @@ class LoginForm extends Model
     {
         return [
             //  login_code is required
-            [['login_code'],'required'],
+            [['login_code'], 'required'],
             // login_code is validated by validatePassword()
             // rememberMe must be a boolean value
-            ['rememberMe','boolean'],
-            ['login_code','validatePassword']
+            ['rememberMe', 'boolean'],
+            ['login_code', 'validatePassword']
         ];
     }
 
@@ -46,7 +46,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validateLoginCode($this->login_code)){
+            if (!$user || !$user->validateLoginCode($this->login_code)) {
                 $this->addError($attribute, 'Incorrect login code.');
             }
         }
@@ -59,7 +59,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
     }
@@ -77,4 +77,5 @@ class LoginForm extends Model
 
         return $this->_user;
     }
+
 }

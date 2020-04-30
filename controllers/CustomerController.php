@@ -65,7 +65,8 @@ class CustomerController extends Controller
     public function actionCreate()
     {
         $model = new Customer();
-
+        $model->scenario = Customer::SCENARIO_CREATE;
+//        var_dump($model->load(Yii::$app->request->post()),$model->scenario, $model->validate(), $model->attributes, $model->getErrors()); die;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->customer_id]);
         }

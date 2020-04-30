@@ -16,6 +16,10 @@ use Yii;
  * @property int $parking_slip_slotnumber
  * @property string $parking_slip_dateto
  * @property int $parking_slip_parkid
+ *
+ * @property Customer $parkingSlipCustomer
+ * @property Parkinglot $parkingSlipPark
+ * @property Payments $payments
  */
 class ParkingSlip extends \yii\db\ActiveRecord
 {
@@ -39,6 +43,8 @@ class ParkingSlip extends \yii\db\ActiveRecord
             [['parking_slip_carplatenumber', 'parking_slip_carcolor'], 'string', 'max' => 11],
             [['parking_slip_parkid'], 'unique'],
             [['parking_slip_customerid'], 'unique'],
+            [['parking_slip_customerid'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['parking_slip_customerid' => 'customer_id']],
+            [['parking_slip_parkid'], 'exist', 'skipOnError' => true, 'targetClass' => Parkinglot::className(), 'targetAttribute' => ['parking_slip_parkid' => 'park_id']],
         ];
     }
 
@@ -58,5 +64,35 @@ class ParkingSlip extends \yii\db\ActiveRecord
             'parking_slip_dateto' => 'Parking Slip Dateto',
             'parking_slip_parkid' => 'Parking Slip Parkid',
         ];
+    }
+
+    /**
+     * Gets query for [[ParkingSlipCustomer]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParkingSlipCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['customer_id' => 'parking_slip_customerid']);
+    }
+
+    /**
+     * Gets query for [[ParkingSlipPark]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParkingSlipPark()
+    {
+        return $this->hasOne(Parkinglot::className(), ['park_id' => 'parking_slip_parkid']);
+    }
+
+    /**
+     * Gets query for [[Payments]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPayments()
+    {
+        return $this->hasOne(Payments::className(), ['payment_parking_slip_id' => 'parking_slip_id']);
     }
 }

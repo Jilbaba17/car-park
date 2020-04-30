@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <?= $form->field($model, 'admin_loginid')->passwordInput() ?>
+    <?= $form->field($model, 'admin_loginid')->dropDownList(\app\models\Login::getAdminLoginIds()) ?>
 
     <?= $form->field($model, 'admin_contact')->textInput() ?>
 

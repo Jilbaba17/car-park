@@ -13,6 +13,8 @@ use Yii;
  * @property string $park_valetparking
  * @property int $park_slotnumberfrom
  * @property int $park_slotnumberto
+ *
+ * @property Parkingslip $parkingslip
  */
 class ParkingLot extends \yii\db\ActiveRecord
 {
@@ -50,5 +52,15 @@ class ParkingLot extends \yii\db\ActiveRecord
             'park_slotnumberfrom' => 'Park Slotnumberfrom',
             'park_slotnumberto' => 'Park Slotnumberto',
         ];
+    }
+
+    /**
+     * Gets query for [[Parkingslip]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParkingslip()
+    {
+        return $this->hasOne(Parkingslip::className(), ['parking_slip_parkid' => 'park_id']);
     }
 }

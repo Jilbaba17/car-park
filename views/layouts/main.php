@@ -41,14 +41,15 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Operations', 'url' => '#', 'items' => [
-                ['label' => 'Manage Floors', 'url' => ['/floor/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Blocks', 'url' => ['/block/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Parking Lots', 'url' => ['/parking-lot/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Customers', 'url' => ['/customer/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
-                ['label' => 'Manage Users', 'url' => ['/login/index'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+                ['label' => 'Manage Floors', 'url' => ['/floor/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+                ['label' => 'Manage Blocks', 'url' => ['/block/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+                ['label' => 'Manage Parking Lots', 'url' => ['/parking-lot/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+                ['label' => 'Manage Customers', 'url' => ['/customer/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+                ['label' => 'Manage Administrators', 'url' => ['/administrator/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+                ['label' => 'Manage Users', 'url' => ['/login/index'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
             ]
             ],
-            ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->role == 'ADMIN'],
+            ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

@@ -11,14 +11,13 @@ use yii\widgets\ActiveForm;
 <div class="customer-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    <?= $form->errorSummary($model); ?>
     <?= $form->field($model, 'customer_contact')->textInput() ?>
 
-    <?= $form->field($model, 'customer_regularornew')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_regularornew')->dropDownList(\app\models\Customer::CUSTOMER_TYPE) ?>
 
-    <?= $form->field($model, 'customer_registrationdate')->textInput() ?>
 
-    <?= $form->field($model, 'customer_loginid')->textInput() ?>
+    <?= $form->field($model, 'customer_loginid')->dropDownList(\app\models\Login::getCustomerLoginIds()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

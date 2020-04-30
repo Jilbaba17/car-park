@@ -11,6 +11,8 @@ use Yii;
  * @property int $block_floorid
  * @property string $block_code
  * @property int $block_capacity
+ *
+ * @property Floor $blockFloor
  */
 class Block extends \yii\db\ActiveRecord
 {
@@ -32,6 +34,7 @@ class Block extends \yii\db\ActiveRecord
             [['block_floorid', 'block_capacity'], 'integer'],
             [['block_code'], 'string', 'max' => 11],
             [['block_floorid'], 'unique'],
+            [['block_floorid'], 'exist', 'skipOnError' => true, 'targetClass' => Floor::className(), 'targetAttribute' => ['block_floorid' => 'floor_id']],
         ];
     }
 
@@ -46,5 +49,15 @@ class Block extends \yii\db\ActiveRecord
             'block_code' => 'Block Code',
             'block_capacity' => 'Block Capacity',
         ];
+    }
+
+    /**
+     * Gets query for [[BlockFloor]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBlockFloor()
+    {
+        return $this->hasOne(Floor::className(), ['floor_id' => 'block_floorid']);
     }
 }
