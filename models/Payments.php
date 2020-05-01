@@ -17,6 +17,7 @@ use Yii;
  */
 class Payments extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -31,11 +32,11 @@ class Payments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payment_mode', 'payment_reference', 'payment_parking_slip_id', 'payment_amount'], 'required'],
+            [['payment_mode', 'payment_parking_slip_id', 'payment_amount'], 'required'],
             [['payment_parking_slip_id', 'payment_amount'], 'integer'],
+            [['payment_reference'], 'default', 'value' => 'none'],
             [['payment_mode', 'payment_reference'], 'string', 'max' => 11],
-            [['payment_parking_slip_id'], 'unique'],
-            [['payment_parking_slip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parkingslip::className(), 'targetAttribute' => ['payment_parking_slip_id' => 'parking_slip_id']],
+            [['payment_parking_slip_id'], 'exist', 'skipOnError' => true, 'targetRelation' => 'paymentParkingSlip'],
         ];
     }
 
@@ -60,6 +61,6 @@ class Payments extends \yii\db\ActiveRecord
      */
     public function getPaymentParkingSlip()
     {
-        return $this->hasOne(Parkingslip::className(), ['parking_slip_id' => 'payment_parking_slip_id']);
+        return $this->hasOne(ParkingSlip::className(), ['parking_slip_id' => 'payment_parking_slip_id']);
     }
 }

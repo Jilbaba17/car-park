@@ -33,7 +33,6 @@ class Block extends \yii\db\ActiveRecord
             [['block_floorid', 'block_code', 'block_capacity'], 'required'],
             [['block_floorid', 'block_capacity'], 'integer'],
             [['block_code'], 'string', 'max' => 11],
-            [['block_floorid'], 'unique'],
             [['block_floorid'], 'exist', 'skipOnError' => true, 'targetClass' => Floor::className(), 'targetAttribute' => ['block_floorid' => 'floor_id']],
         ];
     }

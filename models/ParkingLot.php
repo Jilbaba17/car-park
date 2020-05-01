@@ -35,7 +35,6 @@ class ParkingLot extends \yii\db\ActiveRecord
             [['park_code', 'park_blockid', 'park_valetparking', 'park_slotnumberfrom', 'park_slotnumberto'], 'required'],
             [['park_code', 'park_blockid', 'park_slotnumberfrom', 'park_slotnumberto'], 'integer'],
             [['park_valetparking'], 'string', 'max' => 11],
-            [['park_blockid'], 'unique'],
         ];
     }
 
@@ -61,6 +60,15 @@ class ParkingLot extends \yii\db\ActiveRecord
      */
     public function getParkingslip()
     {
-        return $this->hasOne(Parkingslip::className(), ['parking_slip_parkid' => 'park_id']);
+        return $this->hasMany(ParkingSlip::className(), ['parking_slip_parkid' => 'park_id']);
+    }
+    /**
+     * Gets query for [[ParkingslipTaken]].
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParkingslipTaken()
+    {
+        return $this->hasMany(ParkingSlip::className(), ['parking_slip_parkid' => 'park_id'])
+            ->where('parking_slip_dateto IS NULL');
     }
 }

@@ -21,13 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'Payment_id',
-            'Payment_mode',
-            'Payment_reference',
-            'Payment_Parking slip id',
-            'Payment_amount',
+            'payment_id',
+            'payment_mode',
+            'payment_reference',
+            'paymentParkingSlip.parking_slip_carplatenumber',
+            'payment_amount',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

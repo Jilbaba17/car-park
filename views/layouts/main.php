@@ -12,6 +12,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,7 +27,6 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?php // var_dump(Yii::$app->user->identity->login_rank == 'ADMIN'); die; ?>
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -40,13 +40,16 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Payments', 'url' => ['/payments/create'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
             ['label' => 'Operations', 'url' => '#', 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN', 'items' => [
                 ['label' => 'Manage Floors', 'url' => ['/floor/index']],
                 ['label' => 'Manage Blocks', 'url' => ['/block/index']],
                 ['label' => 'Manage Parking Lots', 'url' => ['/parking-lot/index']],
+                ['label' => 'Manage Parking Slips', 'url' => ['/parking-slip/index']],
                 ['label' => 'Manage Customers', 'url' => ['/customer/index']],
                 ['label' => 'Manage Administrators', 'url' => ['/administrator/index']],
                 ['label' => 'Manage Users', 'url' => ['/login/index']],
+                ['label' => 'Manage Payments', 'url' => ['/payments/index']],
             ]
             ],
             ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
@@ -78,9 +81,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::$app->name . ' ' . date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><? // Yii::powered() ?></p>
     </div>
 </footer>
 

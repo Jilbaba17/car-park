@@ -5,13 +5,29 @@ namespace app\controllers;
 use Yii;
 use app\models\ParkingSlip;
 use yii\data\ActiveDataProvider;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
  * ParkingSlipController implements the CRUD actions for ParkingSlip model.
  */
-class ParkingSlipController extends BaseAdminController
+class ParkingSlipController extends Controller
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     /**
      * Lists all ParkingSlip models.
@@ -51,7 +67,7 @@ class ParkingSlipController extends BaseAdminController
         $model = new ParkingSlip();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->parking_slip_id]);
         }
 
         return $this->render('create', [
@@ -71,7 +87,7 @@ class ParkingSlipController extends BaseAdminController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->parking_slip_id]);
         }
 
         return $this->render('update', [

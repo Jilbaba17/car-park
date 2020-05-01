@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ParkingSlip */
 
-$this->title = 'Update Parking Slip: ' . $model->id;
+$this->title = 'Update Parking Slip: ' . $model->parking_slip_id;
 $this->params['breadcrumbs'][] = ['label' => 'Parking Slips', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->parking_slip_id, 'url' => ['view', 'id' => $model->parking_slip_id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="parking-slip-update">

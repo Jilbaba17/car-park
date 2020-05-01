@@ -23,6 +23,10 @@ use Yii;
  */
 class ParkingSlip extends \yii\db\ActiveRecord
 {
+    const SCENARIO_CHECKOUT = 'checkout';
+    const SCENARIO_CHECKIN = 'checkin';
+    public $floor, $park_blockid;
+
     /**
      * {@inheritdoc}
      */
@@ -37,14 +41,15 @@ class ParkingSlip extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parking_slip_customerid', 'parking_slip_carplatenumber', 'parking_slip_carcolor', 'parking_slip_datefrom', 'parking_slip_date', 'parking_slip_slotnumber', 'parking_slip_dateto', 'parking_slip_parkid'], 'required'],
+            [['parking_slip_customerid', 'parking_slip_carplatenumber', 'parking_slip_carcolor', 'parking_slip_slotnumber', 'parking_slip_parkid'], 'required'],
+            [['floor','park_blockid'], 'required', 'on' => self::SCENARIO_CHECKIN],
+            [['floor','park_blockid'], 'safe', 'on' => self::SCENARIO_CHECKOUT],
             [['parking_slip_customerid', 'parking_slip_slotnumber', 'parking_slip_parkid'], 'integer'],
-            [['parking_slip_datefrom', 'parking_slip_date', 'parking_slip_dateto'], 'safe'],
+            [['parking_slip_date'], 'default', 'value' => date('Y-m-d')],
+            [['parking_slip_dateto', 'parking_slip_datefrom'], 'datetime', 'format' => 'php:Y-m-d H:i:s'],
             [['parking_slip_carplatenumber', 'parking_slip_carcolor'], 'string', 'max' => 11],
-            [['parking_slip_parkid'], 'unique'],
-            [['parking_slip_customerid'], 'unique'],
             [['parking_slip_customerid'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['parking_slip_customerid' => 'customer_id']],
-            [['parking_slip_parkid'], 'exist', 'skipOnError' => true, 'targetClass' => Parkinglot::className(), 'targetAttribute' => ['parking_slip_parkid' => 'park_id']],
+            [['parking_slip_parkid'], 'exist', 'skipOnError' => true, 'targetClass' => ParkingLot::className(), 'targetAttribute' => ['parking_slip_parkid' => 'park_id']],
         ];
     }
 

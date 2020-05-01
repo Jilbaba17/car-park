@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\ParkingSlip;
 use Yii;
 use app\models\Payments;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -42,6 +44,7 @@ class PaymentsController extends BaseAdminController
         ]);
     }
 
+
     /**
      * Creates a new Payments model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -50,15 +53,33 @@ class PaymentsController extends BaseAdminController
     public function actionCreate()
     {
         $model = new Payments();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Payment_id]);
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $slip = ParkingSlip::findOne($model->payment_parking_slip_id);
+                $slip->parking_slip_dateto = date('Y-m-d H:i:s');
+                $slip->save();
+                Yii::$app->session->setFlash('success', 'Payment processed successfully');
+                return $this->redirect(['view', 'id' => $model->payment_id]);
+            }
+            Yii::$app->session->setFlash('danger', 'An error occurred while processing payment');
+        }
+        $unPaidSlips = ParkingSlip::find()
+            ->select('parking_slip_id, parking_slip_carplatenumber')
+            ->where('parking_slip_dateto IS NULL')
+            ->asArray()
+            ->all();
+        if (count($unPaidSlips) > 0) {
+            $unPaidSlips = ArrayHelper::map($unPaidSlips, 'parking_slip_id', 'parking_slip_carplatenumber');
         }
 
         return $this->render('create', [
             'model' => $model,
+            'unpaidSlips' => $unPaidSlips
         ]);
     }
+
+
+
 
     /**
      * Updates an existing Payments model.
@@ -72,11 +93,20 @@ class PaymentsController extends BaseAdminController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Payment_id]);
+            return $this->redirect(['view', 'id' => $model->payment_id]);
+        }
+        $unPaidSlips = ParkingSlip::find()
+            ->select('parking_slip_id, parking_slip_carplatenumber')
+            ->where('parking_slip_dateto IS NULL')
+            ->asArray()
+            ->all();
+        if (count($unPaidSlips) > 0) {
+            $unPaidSlips = ArrayHelper::map($unPaidSlips, 'parking_slip_id', 'parking_slip_carplatenumber');
         }
 
         return $this->render('update', [
             'model' => $model,
+            'unpaidSlips' => $unPaidSlips
         ]);
     }
 

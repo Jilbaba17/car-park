@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Payments */
 
-$this->title = $model->Payment_id;
+$this->title = $model->payment_id;
 $this->params['breadcrumbs'][] = ['label' => 'Payments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->Payment_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->Payment_id], [
+        <?= Html::a('Update', ['update', 'id' => $model->payment_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->payment_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,11 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'Payment_id',
-            'Payment_mode',
-            'Payment_reference',
-            'Payment_Parking slip id',
-            'Payment_amount',
+            'payment_id',
+            'payment_mode',
+            'payment_reference',
+            'paymentParkingSlip.parking_slip_carplatenumber',
+            'payment_amount',
         ],
     ]) ?>
 
