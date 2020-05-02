@@ -121,18 +121,19 @@ class SiteController extends Controller
                         ->one();
                     $tSlots = $slotLimits->parkingslipTaken;
                     $out = [];
+                    $takenSlots = [];
                     if (count($tSlots) > 0) {
                         $takenSlots = array_flip(ArrayHelper::getColumn($tSlots, 'parking_slip_slotnumber'));
-                        $slotRange = range($slotLimits->park_slotnumberfrom, $slotLimits->park_slotnumberto);
-                        foreach ($slotRange as $slot) {
-                            if (isset($takenSlots[$slot])) {
-                                continue;
-                            }
-                            $out[] = [
-                                'id' => $slot,
-                                'name' => $slot
-                            ];
+                    }
+                    $slotRange = range($slotLimits->park_slotnumberfrom, $slotLimits->park_slotnumberto);
+                    foreach ($slotRange as $slot) {
+                        if (isset($takenSlots[$slot])) {
+                            continue;
                         }
+                        $out[] = [
+                            'id' => $slot,
+                            'name' => $slot
+                        ];
 
                     }
                     return ['output' => $out, 'selected' => ''];
