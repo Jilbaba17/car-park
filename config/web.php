@@ -46,7 +46,37 @@ $config = [
             ],
         ],
         'db' => $db,
-        
+        'assetManager' => [
+          'linkAssets' => true,
+          'bundles' => [
+              'nullref\datatable\assets\DataTableBaseAsset' => [
+                  'sourcePath' => '@bower',
+                  'styling' => \nullref\datatable\assets\DataTableAsset::STYLING_BOOTSTRAP,
+                  'js' => [
+                      'datatables/media/js/jquery.dataTables.min.js',
+                      'datatables/media/js/dataTables.bootstrap.min.js',
+                      'datatables-plugins/sorting/natural.js',
+                      'datatables-responsive/js/dataTables.responsive.js',
+                      'datatables.net-buttons/js/dataTables.buttons.min.js',
+                      'datatables.net-buttons-bs/js/buttons.bootstrap.min.js',
+                      'jszip/dist/jszip.min.js',
+                      'pdfmake/build/pdfmake.min.js',
+                      'pdfmake/build/vfs_fonts.js',
+                      'datatables.net-buttons/js/buttons.html5.min.js',
+
+                  ],
+                  'css' => [
+                      'datatables/media/css/dataTables.bootstrap.min.css',
+                      'datatables.net-buttons-bs/css/buttons.bootstrap.min.css',
+
+                  ],
+                  'depends' => [
+                      'yii\web\JqueryAsset',
+                      'yii\bootstrap\BootstrapAsset',
+                  ],
+              ],
+          ]
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

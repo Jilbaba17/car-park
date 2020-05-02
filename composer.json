@@ -18,9 +18,14 @@
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-        "nullref/yii2-datatables": "^1.1",
+        "nullref/yii2-datatables": "~1.0",
         "nex/yii2-chosen": "^1.0",
-        "kartik-v/yii2-widget-depdrop": "dev-master"
+        "kartik-v/yii2-widget-depdrop": "dev-master",
+        "bower-asset/datatables.net": "1.10.12",
+        "bower-asset/datatables.net-buttons-bs": "*",
+        "bower-asset/datatables-responsive": "2.1.0",
+        "bower-asset/jszip": "*",
+        "bower-asset/pdfmake": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

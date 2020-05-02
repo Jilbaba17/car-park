@@ -17,6 +17,7 @@ use Yii;
  */
 class Payments extends \yii\db\ActiveRecord
 {
+    const PAYMENT_MODES = ['Cash' => 'CASH', 'MPESA' => 'MPESA'];
 
     /**
      * {@inheritdoc}
@@ -62,5 +63,9 @@ class Payments extends \yii\db\ActiveRecord
     public function getPaymentParkingSlip()
     {
         return $this->hasOne(ParkingSlip::className(), ['parking_slip_id' => 'payment_parking_slip_id']);
+    }
+
+    public function getPaymentDate() {
+        return $this->paymentParkingSlip->parking_slip_dateto;
     }
 }

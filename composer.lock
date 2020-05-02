@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8205cd94e2707bef73e277b84847cd6",
+    "content-hash": "4ceff0deb4590d515b23e1feb937bc91",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -117,6 +117,116 @@
             ]
         },
         {
+            "name": "bower-asset/datatables-responsive",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:DataTables/Responsive.git",
+                "reference": "1b65f7c4c45acf056e3f799be6fb9f353b740165"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Responsive/zipball/1b65f7c4c45acf056e3f799be6fb9f353b740165",
+                "reference": "1b65f7c4c45acf056e3f799be6fb9f353b740165"
+            },
+            "require": {
+                "bower-asset/datatables": ">=1.10.1",
+                "bower-asset/jquery": ">=1.7.0"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/datatables.net",
+            "version": "1.10.12",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:DataTables/Dist-DataTables.git",
+                "reference": "6840fb7ef4f6ec8e0a8752d77800f5b78674f3fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables/zipball/6840fb7ef4f6ec8e0a8752d77800f5b78674f3fd",
+                "reference": "6840fb7ef4f6ec8e0a8752d77800f5b78674f3fd"
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/datatables.net-bs",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:DataTables/Dist-DataTables-Bootstrap.git",
+                "reference": "d946808c4e2bcb5cf82f606f750a53992f234b18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Bootstrap/zipball/d946808c4e2bcb5cf82f606f750a53992f234b18",
+                "reference": "d946808c4e2bcb5cf82f606f750a53992f234b18"
+            },
+            "require": {
+                "bower-asset/datatables.net": ">=1.10.9",
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/datatables.net-buttons",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:DataTables/Dist-DataTables-Buttons.git",
+                "reference": "c50c717f55dc67ce60ce697762ee5b5215d22a56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons/zipball/c50c717f55dc67ce60ce697762ee5b5215d22a56",
+                "reference": "c50c717f55dc67ce60ce697762ee5b5215d22a56"
+            },
+            "require": {
+                "bower-asset/datatables.net": ">=1.10.9",
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/datatables.net-buttons-bs",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:DataTables/Dist-DataTables-Buttons-Bootstrap.git",
+                "reference": "fed406fe91cae7268c4ea13dbb09c456ae9fa23c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons-Bootstrap/zipball/fed406fe91cae7268c4ea13dbb09c456ae9fa23c",
+                "reference": "fed406fe91cae7268c4ea13dbb09c456ae9fa23c"
+            },
+            "require": {
+                "bower-asset/datatables.net-bs": ">=1.10.9",
+                "bower-asset/datatables.net-buttons": ">=1.0.3",
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
@@ -149,6 +259,42 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/15bc73803f76bc53b654b9fdbbbc096f56d7c03d",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/jszip",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Stuk/jszip.git",
+                "reference": "663757922eaf34b46f1397abc8f95c2e067fe5d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Stuk/jszip/zipball/663757922eaf34b46f1397abc8f95c2e067fe5d9",
+                "reference": "663757922eaf34b46f1397abc8f95c2e067fe5d9"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT or GPLv3"
+            ]
+        },
+        {
+            "name": "bower-asset/pdfmake",
+            "version": "0.1.65",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:bpampuch/pdfmake.git",
+                "reference": "e30db8db2d9c822e60109ca8ed1b4869d4f019f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bpampuch/pdfmake/zipball/e30db8db2d9c822e60109ca8ed1b4869d4f019f4",
+                "reference": "e30db8db2d9c822e60109ca8ed1b4869d4f019f4"
             },
             "type": "bower-asset",
             "license": [
@@ -2179,23 +2325,20 @@
         },
         {
             "name": "phpdocumentor/reflection-common",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
-                "reference": "63a995caa1ca9e5590304cd845c15ad6d482a62a"
+                "reference": "6568f4687e5b41b054365f9ae03fcb1ed5f2069b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/63a995caa1ca9e5590304cd845c15ad6d482a62a",
-                "reference": "63a995caa1ca9e5590304cd845c15ad6d482a62a",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/6568f4687e5b41b054365f9ae03fcb1ed5f2069b",
+                "reference": "6568f4687e5b41b054365f9ae03fcb1ed5f2069b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6"
             },
             "type": "library",
             "extra": {
@@ -2227,7 +2370,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2018-08-07T13:53:10+00:00"
+            "time": "2020-04-27T09:25:28+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -3623,7 +3766,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -3699,7 +3842,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -3752,7 +3895,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.4.7",
+            "version": "v4.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -3813,7 +3956,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3941,7 +4084,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -4164,16 +4307,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "ad5e9c83ade5bbb3a96a3f30588a0622708caefd"
+                "reference": "482fb4e710e5af3e0e78015f19aa716ad953392f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/ad5e9c83ade5bbb3a96a3f30588a0622708caefd",
-                "reference": "ad5e9c83ade5bbb3a96a3f30588a0622708caefd",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/482fb4e710e5af3e0e78015f19aa716ad953392f",
+                "reference": "482fb4e710e5af3e0e78015f19aa716ad953392f",
                 "shasum": ""
             },
             "require": {
@@ -4219,7 +4362,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-30T11:42:42+00:00"
+            "time": "2020-04-28T17:58:55+00:00"
         },
         {
             "name": "theseer/tokenizer",

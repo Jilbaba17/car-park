@@ -22,6 +22,9 @@ class BaseAdminController extends \yii\web\Controller
                     [
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
+                            if (\Yii::$app->user->isGuest) {
+                                return false;
+                            }
                             return \Yii::$app->user->identity->login_rank == 'ADMIN';
                         }
                     ],

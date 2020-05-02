@@ -52,7 +52,15 @@ AppAsset::register($this);
                 ['label' => 'Manage Payments', 'url' => ['/payments/index']],
             ]
             ],
-            ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN'],
+            ['label' => 'Reports', 'url' => ['#'], 'visible' => Yii::$app->user->identity->login_rank == 'ADMIN', 'items' =>[
+                ['label' => 'Floors', 'url' => ['/reports/floors']],
+                ['label' => 'Blocks', 'url' => ['/reports/blocks']],
+                ['label' => 'Parking Lots', 'url' => ['/reports/parking-lots']],
+                ['label' => 'Parking Slips', 'url' => ['/reports/parking-slips']],
+                ['label' => 'Customers', 'url' => ['/reports/customer']],
+                ['label' => 'Administrators', 'url' => ['/reports/administrator']],
+                ['label' => 'Payments', 'url' => ['/reports/payments']],
+            ]],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

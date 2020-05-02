@@ -18,7 +18,7 @@ $blocks = \yii\helpers\ArrayHelper::map(\app\models\Block::find()
 
     <?= $form->field($model, 'park_blockid')->dropDownList($blocks) ?>
 
-    <?= $form->field($model, 'park_valetparking')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'park_valetparking')->dropDownList(\app\models\ParkingLot::VALET_PARKING) ?>
 
     <?= $form->field($model, 'park_slotnumberfrom')->textInput() ?>
 

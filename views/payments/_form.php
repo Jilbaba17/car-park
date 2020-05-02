@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'payment_parking_slip_id')->dropDownList($unpaidSlips)->label('Vehicle') ?>
 
-    <?= $form->field($model, 'payment_mode')->dropDownList(['Cash' => 'CASH', 'MPESA' => 'MPESA']) ?>
+    <?= $form->field($model, 'payment_mode')->dropDownList(\app\models\Payments::PAYMENT_MODES) ?>
 
     <?= $form->field($model, 'payment_reference')->textInput(['placeholder' => 'none']) ?>
 

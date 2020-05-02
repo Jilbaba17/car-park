@@ -18,6 +18,10 @@ use Yii;
  */
 class ParkingLot extends \yii\db\ActiveRecord
 {
+
+    const VALET_PARKING = [
+        'No', 'Yes'
+    ];
     /**
      * {@inheritdoc}
      */
@@ -71,4 +75,9 @@ class ParkingLot extends \yii\db\ActiveRecord
         return $this->hasMany(ParkingSlip::className(), ['parking_slip_parkid' => 'park_id'])
             ->where('parking_slip_dateto IS NULL');
     }
+
+    public function getBlock() {
+        return $this->hasOne(Block::className(), ['block_id' => 'park_blockid']);
+    }
+
 }

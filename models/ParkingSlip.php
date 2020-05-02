@@ -60,14 +60,14 @@ class ParkingSlip extends \yii\db\ActiveRecord
     {
         return [
             'parking_slip_id' => 'Parking Slip ID',
-            'parking_slip_customerid' => 'Parking Slip Customerid',
-            'parking_slip_carplatenumber' => 'Parking Slip Carplatenumber',
-            'parking_slip_carcolor' => 'Parking Slip Carcolor',
-            'parking_slip_datefrom' => 'Parking Slip Datefrom',
-            'parking_slip_date' => 'Parking Slip Date',
-            'parking_slip_slotnumber' => 'Parking Slip Slotnumber',
-            'parking_slip_dateto' => 'Parking Slip Dateto',
-            'parking_slip_parkid' => 'Parking Slip Parkid',
+            'parking_slip_customerid' => 'Customer',
+            'parking_slip_carplatenumber' => 'Car Plate No',
+            'parking_slip_carcolor' => 'Car Color',
+            'parking_slip_datefrom' => 'Date from',
+            'parking_slip_date' => 'Date',
+            'parking_slip_slotnumber' => 'Slot Number',
+            'parking_slip_dateto' => 'Date To',
+            'parking_slip_parkid' => 'Parking lot Code',
         ];
     }
 
@@ -88,7 +88,7 @@ class ParkingSlip extends \yii\db\ActiveRecord
      */
     public function getParkingSlipPark()
     {
-        return $this->hasOne(Parkinglot::className(), ['park_id' => 'parking_slip_parkid']);
+        return $this->hasOne(ParkingLot::className(), ['park_id' => 'parking_slip_parkid']);
     }
 
     /**

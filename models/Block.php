@@ -59,4 +59,8 @@ class Block extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Floor::className(), ['floor_id' => 'block_floorid']);
     }
+
+    public function getBlockFloorNumber() {
+        return $this->blockFloor->floor_number;
+    }
 }
