@@ -73,8 +73,8 @@ class SiteController extends Controller
     {
         $model = new ParkingSlip();
         $floors = ArrayHelper::map(Floor::find()->select('floor_id, floor_number')->asArray()->all(), 'floor_id', 'floor_number');
+        $model->scenario = ParkingSlip::SCENARIO_CHECKIN;
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->scenario = ParkingSlip::SCENARIO_CHECKIN;
             $model->parking_slip_customerid = Yii::$app->user->identity->customer->customer_id;
             $model->parking_slip_datefrom = date('Y-m-d H:i:s');
             if ($model->save()) {

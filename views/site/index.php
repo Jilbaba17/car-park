@@ -26,15 +26,7 @@ $this->title = 'Home';
                     'url' => \yii\helpers\Url::to(['/site/get-block'])
                 ]
             ])->label('Block'); ?>
-            <?= $form->field($model, 'parking_slip_slotnumber')->widget(\kartik\depdrop\DepDrop::classname(), [
-                'pluginOptions' => [
-                    'initialize' => true,
-                    'allParam' => 'CheckinForm',
-                    'depends' => ['park_blockid'],
-                    'placeholder' => 'Select...',
-                    'url' => \yii\helpers\Url::to(['/site/get-slot', 'slotNum' => 1])
-                ]
-            ])->label('Parking Slot Number'); ?>
+
 
             <?= $form->field($model, 'parking_slip_parkid')->widget(\kartik\depdrop\DepDrop::classname(), [
                 'pluginOptions' => [
@@ -45,6 +37,16 @@ $this->title = 'Home';
                     'url' => \yii\helpers\Url::to(['/site/get-slot'])
                 ]
             ])->label('Parking Slot'); ?>
+
+            <?= $form->field($model, 'parking_slip_slotnumber')->widget(\kartik\depdrop\DepDrop::classname(), [
+                'pluginOptions' => [
+                    'initialize' => true,
+                    'allParam' => 'CheckinForm',
+                    'depends' => ['park_blockid'],
+                    'placeholder' => 'Select...',
+                    'url' => \yii\helpers\Url::to(['/site/get-slot', 'slotNum' => 1])
+                ]
+            ])->label('Parking Slot Number'); ?>
             <?= \yii\bootstrap\Html::submitButton('Save'); ?>
 
         </div>
