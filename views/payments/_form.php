@@ -14,6 +14,16 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'payment_parking_slip_id')->dropDownList($unpaidSlips)->label('Vehicle') ?>
+    <?= $form->field($model, 'payment_date')->widget(\kartik\datetime\DateTimePicker::className(), [
+        'value' => date('Y-m-d H:i:s'),
+        'options' => [
+            'placeholder' => date('Y-m-d H:i:s')
+        ],
+        'pluginOptions' => [
+            'convertFormat' => true,
+            'format' => 'yyyy-mm-dd hh:ii:ss'
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'payment_mode')->dropDownList(\app\models\Payments::PAYMENT_MODES) ?>
 

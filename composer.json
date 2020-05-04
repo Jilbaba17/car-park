@@ -25,7 +25,9 @@
         "bower-asset/datatables.net-buttons-bs": "*",
         "bower-asset/datatables-responsive": "2.1.0",
         "bower-asset/jszip": "*",
-        "bower-asset/pdfmake": "*"
+        "bower-asset/pdfmake": "*",
+        "kartik-v/yii2-widget-datetimepicker": "dev-master",
+        "kartik-v/yii2-widget-datepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

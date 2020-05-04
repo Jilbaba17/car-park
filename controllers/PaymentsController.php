@@ -95,18 +95,18 @@ class PaymentsController extends BaseAdminController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->payment_id]);
         }
-        $unPaidSlips = ParkingSlip::find()
+        $unpaidSlips = ParkingSlip::find()
             ->select('parking_slip_id, parking_slip_carplatenumber')
             ->where('parking_slip_dateto IS NULL')
             ->asArray()
             ->all();
-        if (count($unPaidSlips) > 0) {
-            $unPaidSlips = ArrayHelper::map($unPaidSlips, 'parking_slip_id', 'parking_slip_carplatenumber');
+        if (count($unpaidSlips) > 0) {
+            $unpaidSlips = ArrayHelper::map($unpaidSlips, 'parking_slip_id', 'parking_slip_carplatenumber');
         }
 
         return $this->render('update', [
             'model' => $model,
-            'unpaidSlips' => $unPaidSlips
+            'unpaidSlips' => $unpaidSlips
         ]);
     }
 

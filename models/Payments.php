@@ -36,6 +36,7 @@ class Payments extends \yii\db\ActiveRecord
             [['payment_mode', 'payment_parking_slip_id', 'payment_amount'], 'required'],
             [['payment_parking_slip_id', 'payment_amount'], 'integer'],
             [['payment_reference'], 'default', 'value' => 'none'],
+            [['payment_date'], 'default', 'value' => date('Y-m-d H:i:s')],
             [['payment_mode', 'payment_reference'], 'string', 'max' => 11],
             [['payment_parking_slip_id'], 'exist', 'skipOnError' => true, 'targetRelation' => 'paymentParkingSlip'],
         ];
