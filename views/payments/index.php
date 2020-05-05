@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'payment_reference',
             'paymentParkingSlip.parking_slip_carplatenumber',
             'payment_amount',
+            'payment_date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
